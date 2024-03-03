@@ -17,6 +17,7 @@ function afficherChampsSupplementaires() {
 	var champsMIG = document.getElementById("champsMIG");
 	var champsMAG = document.getElementById("champsMAG");
 	var champsTIG = document.getElementById("champsTIG");
+	var metalApport = document.getElementById("metalApport");
 	var typeMateriau = document.getElementById("typeMateriau");
 
 	// Masquer tous les champs supplémentaires
@@ -24,6 +25,7 @@ function afficherChampsSupplementaires() {
 	champsMIG.style.display = "none";
 	champsMAG.style.display = "none";
 	champsTIG.style.display = "none";
+	metalApport.style.display = "none";
 
 	// Réinitialiser les options du type de matériau
 	typeMateriau.innerHTML = '<option value=""></option>';
@@ -40,17 +42,15 @@ function afficherChampsSupplementaires() {
 
 		// Désactiver les champs non nécessaires
 		typeElectrode.innerHTML = '<option value=""></option>';
-		champsMIG.innerHTML = '<option value=""></option>';
-		champsMAG.innerHTML = '<option value=""></option>';
-		champsTIG.innerHTML = '<option value=""></option>';
 
+		// Initialiser les champs nécessaire à la recherche
 		typeElectrode.innerHTML += '<option value="rutile">Rutile</option>';
 		typeElectrode.innerHTML += '<option value="basique">Basique</option>';
-
 		typeMateriau.innerHTML += '<option value="acier">Acier</option>';
 		typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
 		typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
 
+		// Fonction choix style enrobage électrode
 		typeElectrode.addEventListener("change", function () {
 			typeCourant.disabled = false;
 			typeCourant.innerHTML = ""; // Effacer les options précédentes

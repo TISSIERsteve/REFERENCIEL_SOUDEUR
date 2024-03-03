@@ -1,3 +1,5 @@
+//* FONCTION RECHERCHER *//
+
 const optionsDatabaseArc = require("./baseDeDonneesArc");
 
 function rechercher() {
@@ -60,9 +62,9 @@ function rechercher() {
 		return { intensite, amperage, vitesseFil };
 	}
 
-	alert(
-		"Les options sélectionnées ne sont pas disponibles dans la base de données.",
-	);
+	// alert(
+	// 	// "Les options sélectionnées ne sont pas disponibles dans la base de données.",
+	// );
 	return null;
 }
 module.exports = rechercher;

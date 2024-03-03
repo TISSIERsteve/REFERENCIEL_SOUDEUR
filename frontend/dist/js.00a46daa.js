@@ -136,6 +136,7 @@ function afficherChampsSupplementaires() {
   var champsMIG = document.getElementById("champsMIG");
   var champsMAG = document.getElementById("champsMAG");
   var champsTIG = document.getElementById("champsTIG");
+  var metalApport = document.getElementById("metalApport");
   var typeMateriau = document.getElementById("typeMateriau");
 
   // Masquer tous les champs supplémentaires
@@ -143,6 +144,7 @@ function afficherChampsSupplementaires() {
   champsMIG.style.display = "none";
   champsMAG.style.display = "none";
   champsTIG.style.display = "none";
+  metalApport.style.display = "none";
 
   // Réinitialiser les options du type de matériau
   typeMateriau.innerHTML = '<option value=""></option>';
@@ -158,14 +160,15 @@ function afficherChampsSupplementaires() {
 
     // Désactiver les champs non nécessaires
     typeElectrode.innerHTML = '<option value=""></option>';
-    champsMIG.innerHTML = '<option value=""></option>';
-    champsMAG.innerHTML = '<option value=""></option>';
-    champsTIG.innerHTML = '<option value=""></option>';
+
+    // Initialiser les champs nécessaire à la recherche
     typeElectrode.innerHTML += '<option value="rutile">Rutile</option>';
     typeElectrode.innerHTML += '<option value="basique">Basique</option>';
     typeMateriau.innerHTML += '<option value="acier">Acier</option>';
     typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
     typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
+
+    // Fonction choix style enrobage électrode
     typeElectrode.addEventListener("change", function () {
       typeCourant.disabled = false;
       typeCourant.innerHTML = ""; // Effacer les options précédentes
@@ -223,36 +226,182 @@ function afficherChampsSupplementaires() {
 }
 module.exports = afficherChampsSupplementaires;
 },{}],"js/afficherTableauResultats.js":[function(require,module,exports) {
-//* FONCTION AFFICHER TABLEAU RESULTAT *//
+// // //* FONCTION AFFICHER TABLEAU RESULTAT *//
 
+// // function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
+// // 	var resultatDiv = document.getElementById("resultats");
+
+// // 	resultatDiv.innerHTML = ""; // Nettoyer le contenu précédent
+
+// // 	var table = document.createElement("table");
+// // 	var tbody = document.createElement("tbody");
+
+// // 	tableau.forEach(function (rowData) {
+// // 		var row = document.createElement("tr");
+
+// // 		rowData.forEach(function (cellData) {
+// // 			var cell = document.createElement("td");
+// // 			cell.appendChild(document.createTextNode(cellData));
+// // 			row.appendChild(cell);
+// // 		});
+
+// // 		tbody.appendChild(row);
+// // 	});
+
+// // 	table.appendChild(tbody);
+// // 	resultatDiv.appendChild(table);
+
+// // 	// Afficher les résultats passés en paramètres
+// // 	var infoDiv = document.createElement("div");
+// // 	infoDiv.innerHTML =
+// // 		//
+// // 		"Votre ampérage doit être de : " +
+// // 		amperage.min +
+// // 		"A" +
+// // 		" et " +
+// // 		amperage.max +
+// // 		"A" +
+// // 		"<br>" +
+// // 		//
+// // 		"Votre intensité doit être de : " +
+// // 		intensite.min +
+// // 		"A" +
+// // 		" et " +
+// // 		intensite.max +
+// // 		"A" +
+// // 		"<br>" +
+// // 		//
+// // 		"Votre vitesse d'avance doit être de : " +
+// // 		vitesseFil.min +
+// // 		"A" +
+// // 		" et " +
+// // 		vitesseFil.max +
+// // 		"A";
+// // 	resultatDiv.appendChild(infoDiv);
+// // }
+
+// //* CETTE FONCTION EFFACE LES CHAMPS NON UTILISER
+
+// function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
+// 	var resultatDiv = document.getElementById("resultats");
+
+// 	resultatDiv.style.display = "block";
+// 	resultatDiv.innerHTML = ""; // Nettoyer le contenu précédent
+
+// 	var table = document.createElement("table");
+// 	var tbody = document.createElement("tbody");
+
+// 	tableau.forEach(function (rowData) {
+// 		// Vérifier si la valeur de la deuxième colonne est définie
+// 		if (typeof rowData[1] !== "undefined") {
+// 			var row = document.createElement("tr");
+// 			var cell1 = document.createElement("td");
+// 			cell1.appendChild(document.createTextNode(rowData[0]));
+// 			var cell2 = document.createElement("td");
+// 			cell2.appendChild(document.createTextNode(rowData[1]));
+// 			row.appendChild(cell1);
+// 			row.appendChild(cell2);
+// 			tbody.appendChild(row);
+// 		}
+// 	});
+
+// 	table.appendChild(tbody);
+// 	resultatDiv.appendChild(table);
+
+// 	// Afficher les résultats passés en paramètres
+// 	var infoDiv = document.createElement("div");
+// 	infoDiv.innerHTML = `  <tr>
+//             <td>Amperage</td>
+//             <td>${amperage.min}A - ${amperage.max}A</td>
+//         </tr>
+//         <tr>
+//             <td>Intensité</td>
+//             <td>${intensite.min}A - ${intensite.max}A</td>
+//         </tr>
+//         <tr>
+//             <td>Vitesse de fil</td>
+//             <td>${vitesseFil.min}A - ${vitesseFil.max}A</td>
+//         </tr>
+//     `;
+// 	// "Votre ampérage doit être de : " +
+// 	// amperage.min +
+// 	// "A" +
+// 	// " et " +
+// 	// amperage.max +
+// 	// "A" +
+// 	// "<br>" +
+// 	// "Votre intensité doit être de : " +
+// 	// intensite.min +
+// 	// "A" +
+// 	// " et " +
+// 	// intensite.max +
+// 	// "A" +
+// 	// "<br>" +
+// 	// "Votre vitesse d'avance doit être de : " +
+// 	// vitesseFil.min +
+// 	// "A" +
+// 	// " et " +
+// 	// vitesseFil.max +
+// 	// "A";
+// 	// table.appendChild(tbody);
+// 	resultatDiv.appendChild(infoDiv);
+// }
+
+// module.exports = afficherTableauResultats;
 function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
   var resultatDiv = document.getElementById("resultats");
-  resultatDiv.innerHTML = ""; // Nettoyer le contenu précédent
 
+  // Afficher la fenêtre de résultats
+  resultatDiv.style.display = "block";
+
+  // Flouter l'arrière-plan
+  document.body.classList.add("modal-open");
+
+  // Nettoyer le contenu précédent
+  resultatDiv.innerHTML = "";
   var table = document.createElement("table");
   var tbody = document.createElement("tbody");
   tableau.forEach(function (rowData) {
-    var row = document.createElement("tr");
-    rowData.forEach(function (cellData) {
-      var cell = document.createElement("td");
-      cell.appendChild(document.createTextNode(cellData));
-      row.appendChild(cell);
-    });
-    tbody.appendChild(row);
+    // Vérifier si la valeur de la deuxième colonne est définie
+    if (typeof rowData[1] !== "undefined") {
+      var row = document.createElement("tr");
+      var cell1 = document.createElement("td");
+      cell1.appendChild(document.createTextNode(rowData[0]));
+      var cell2 = document.createElement("td");
+      cell2.appendChild(document.createTextNode(rowData[1]));
+      row.appendChild(cell1);
+      row.appendChild(cell2);
+      tbody.appendChild(row);
+    }
   });
+
+  // Ajouter les lignes pour amperage, intensite et vitesse de fil
+  var amperageRow = document.createElement("tr");
+  var amperageCell1 = document.createElement("td");
+  amperageCell1.appendChild(document.createTextNode("Amperage"));
+  var amperageCell2 = document.createElement("td");
+  amperageCell2.appendChild(document.createTextNode("".concat(amperage.min, "A - ").concat(amperage.max, "A")));
+  amperageRow.appendChild(amperageCell1);
+  amperageRow.appendChild(amperageCell2);
+  tbody.appendChild(amperageRow);
+  var intensiteRow = document.createElement("tr");
+  var intensiteCell1 = document.createElement("td");
+  intensiteCell1.appendChild(document.createTextNode("Intensité"));
+  var intensiteCell2 = document.createElement("td");
+  intensiteCell2.appendChild(document.createTextNode("".concat(intensite.min, "A - ").concat(intensite.max, "A")));
+  intensiteRow.appendChild(intensiteCell1);
+  intensiteRow.appendChild(intensiteCell2);
+  tbody.appendChild(intensiteRow);
+  var vitesseFilRow = document.createElement("tr");
+  var vitesseFilCell1 = document.createElement("td");
+  vitesseFilCell1.appendChild(document.createTextNode("Vitesse de fil"));
+  var vitesseFilCell2 = document.createElement("td");
+  vitesseFilCell2.appendChild(document.createTextNode("".concat(vitesseFil.min, "A - ").concat(vitesseFil.max, "A")));
+  vitesseFilRow.appendChild(vitesseFilCell1);
+  vitesseFilRow.appendChild(vitesseFilCell2);
+  tbody.appendChild(vitesseFilRow);
   table.appendChild(tbody);
   resultatDiv.appendChild(table);
-
-  // Afficher les résultats passés en paramètres
-  var infoDiv = document.createElement("div");
-  infoDiv.innerHTML =
-  //
-  "Votre ampérage doit être de : " + amperage.min + "A" + " et " + amperage.max + "A" + "<br>" +
-  //
-  "Votre intensité doit être de : " + intensite.min + "A" + " et " + intensite.max + "A" + "<br>" +
-  //
-  "Votre vitesse d'avance doit être de : " + vitesseFil.min + "A" + " et " + vitesseFil.max + "A";
-  resultatDiv.appendChild(infoDiv);
 }
 module.exports = afficherTableauResultats;
 },{}],"js/baseDeDonneesArc.js":[function(require,module,exports) {
@@ -296,6 +445,8 @@ var optionsDatabaseArc = {
 };
 module.exports = optionsDatabaseArc;
 },{}],"js/rechercher.js":[function(require,module,exports) {
+//* FONCTION RECHERCHER *//
+
 var optionsDatabaseArc = require("./baseDeDonneesArc");
 function rechercher() {
   var typeSoudure = document.getElementById("typeSoudure").value;
@@ -316,11 +467,17 @@ function rechercher() {
       vitesseFil: vitesseFil
     };
   }
-  alert("Les options sélectionnées ne sont pas disponibles dans la base de données.");
+
+  // alert(
+  // 	// "Les options sélectionnées ne sont pas disponibles dans la base de données.",
+  // );
   return null;
 }
 module.exports = rechercher;
 },{"./baseDeDonneesArc":"js/baseDeDonneesArc.js"}],"js/calculer.js":[function(require,module,exports) {
+//* FONCTION CALCULER *//
+
+// Import de mes fichiers
 var afficherTableauResultats = require("./afficherTableauResultats");
 var rechercher = require("./rechercher");
 
@@ -334,54 +491,39 @@ calculerButton.addEventListener("click", function () {
 function calculer() {
   // Vérifier si tous les champs sont remplis
   var champsRemplis = true;
-  var champsRequis = ["typeSoudure", "typeMateriau", "epaisseur", "diametreElectrode", "typeElectrode",
-  // "diametreFil",
-  // "diametreFilMAG",
-  // "diametreTungstene",
-  // "metalApport",
-  "positionSoudure", "typeCourant"];
-  // console.log(champsRequis);
+  var champsRequis = ["typeSoudure", "typeMateriau", "epaisseur", "diametreElectrode", "typeElectrode", "diametreFil", "diametreFilMAG", "diametreTungstene", "metalApport", "positionSoudure", "typeCourant"];
+  console.log(champsRequis);
 
   // Si tous les champs ne sont pas remplis, return
-  //* FONCTIONNE PAS A VOIR APRES
-  // champsRequis.forEach(function (champ) {
-  // 	if (document.getElementById(champ).value === "") {
-  // 		champsRemplis = false;
-  // 		return;
-  // 	}
-  // });
+  champsRequis.forEach(function (champ) {
+    if (document.getElementById(champ).value === "") {
+      champsRemplis = false;
+      return;
+    }
+  });
 
   // Si tous les champs sont remplis, procéder au calcul
-  // if (champsRemplis) { // * FONCTIONNE PAS A VOIR APRES
-  if (true) {
+  if (champsRemplis) {
     // Rechercher les options pertinentes dans la base de données
     var optionsTrouvees = rechercher();
-
-    // if (optionsTrouvees) {
-    // * FONCTIONNE PAS A VOIR APRES
-    if (true) {
+    if (optionsTrouvees) {
       // Récupérer les valeurs des autres champs
       var typeSoudure = document.getElementById("typeSoudure").value;
       var typeMateriau = document.getElementById("typeMateriau").value;
       var epaisseur = document.getElementById("epaisseur").value;
       var diametreElectrode = document.getElementById("diametreElectrode").value;
       var typeElectrode = document.getElementById("typeElectrode").value;
-      // var diametreFil = document.getElementById("diametreFil").value;
-      // var diametreFilMAG = document.getElementById("diametreFilMAG").value;
-      // var diametreTungstene =
-      // document.getElementById("diametreTungstene").value;
-      // var metalApport = document.getElementById("metalApport").value;
+      var diametreFil = document.getElementById("diametreFil").value;
+      var diametreFilMAG = document.getElementById("diametreFilMAG").value;
+      var diametreTungstene = document.getElementById("diametreTungstene").value;
+      var metalApport = document.getElementById("metalApport").value;
       var positionSoudure = document.getElementById("positionSoudure").value;
       var typeCourant = document.getElementById("typeCourant").value;
 
       // Créer un tableau avec les valeurs récupérées
-      var tableauResultats = [["Type de Soudure", typeSoudure], ["Type de Matériau", typeMateriau], ["Épaisseur du Matériau (mm)", epaisseur], ["Diamètre de la Baguette (mm)", diametreElectrode], ["Type de Baguette", typeElectrode],
-      // ["Diamètre du Fil (mm)", diametreFil],
-      // ["Diamètre du Fil MAG (mm)", diametreFilMAG],
-      // ["Diamètre du Tungstène (mm)", diametreTungstene],
-      // ["Métal d'Apport", metalApport],
-      ["Position de la Soudure", positionSoudure], ["Type de Courant", typeCourant]];
-      // console.log("tableauResultats", tableauResultats); // * CECI FONCTIONNE
+
+      //* J AI RAJOUTER .VALUE POUR EFFACER LES CHAMPS NON REMPLIS
+      var tableauResultats = [["Type de Soudure", typeSoudure], ["Type de Matériau", typeMateriau], ["Épaisseur du Matériau (mm)", epaisseur], ["Diamètre de la Baguette (mm)", diametreElectrode], ["Type de Baguette", typeElectrode], ["Diamètre du Fil (mm)", diametreFil.value], ["Diamètre du Fil MAG (mm)", diametreFilMAG.value], ["Diamètre du Tungstène (mm)", diametreTungstene.value], ["Métal d'Apport", metalApport.value], ["Position de la Soudure", positionSoudure], ["Type de Courant", typeCourant]];
 
       // Extraire les valeurs d'intensité, d'amperage et de vitesse de fil
       var amperage = optionsTrouvees.amperage;
@@ -432,7 +574,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58732" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58709" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

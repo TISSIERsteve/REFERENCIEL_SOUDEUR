@@ -45,13 +45,54 @@ button:hover {
       background-color: #45a049;
 }
 
+/* Styles pour la fenêtre de résultats */
+.modal-open {
+      visibility: hidden;
+}
+
 #resultats {
+      visibility: visible;
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      background-color: #333;
+      color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      z-index: 1000;
+      overflow: auto;
+}
+
+/* Autres styles pour la fenêtre de résultats */
+#resultats h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+}
+
+#resultats table {
+      width: 100%;
+      border-collapse: collapse;
+}
+
+#resultats table td,
+#resultats table th {
+      border: 1px solid #fff;
+      padding: 8px;
+}
+
+#resultats .additional-info {
       margin-top: 20px;
-      padding: 10px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      animation: fadeIn 1s ease;
+      font-style: italic;
+}
+
+#resultats .additional-info p {
+      margin: 0;
 }
 
 @keyframes fadeIn {
