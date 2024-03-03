@@ -122,8 +122,6 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
 // Récupérer l'élément select
 var typeSoudureSelect = document.getElementById("typeSoudure");
-
-// Ajouter un écouteur d'événements pour le changement
 typeSoudureSelect.addEventListener("change", afficherChampsSupplementaires);
 
 // Définir la fonction afficherChampsSupplementaires
@@ -225,129 +223,39 @@ function afficherChampsSupplementaires() {
   }
 }
 module.exports = afficherChampsSupplementaires;
+},{}],"js/buttonRefresh.js":[function(require,module,exports) {
+//* FONCTION BOUTTON REFRESH *//
+
+function ajouterBoutonRefresh() {
+  // Créer un bouton
+  var bouton = document.createElement("button");
+
+  // Ajouter une classe au bouton
+  bouton.classList.add("boutonRefresh");
+  bouton.textContent = "Nouvelle recherche";
+
+  // Ajouter un gestionnaire d'événements pour le clic sur le bouton
+  bouton.addEventListener("click", function () {
+    maFonction();
+  });
+
+  // Ajouter le bouton au corps du document
+  document.body.appendChild(bouton);
+}
+
+// La fonction à exécuter lorsque le bouton est cliqué
+function maFonction() {
+  if (window.confirm("Êtes-vous sûr de vouloir quitter la page ?")) {
+    window.location.reload();
+  } else {
+    alert("Opération annulée !");
+  }
+}
+module.exports = ajouterBoutonRefresh;
 },{}],"js/afficherTableauResultats.js":[function(require,module,exports) {
-// // //* FONCTION AFFICHER TABLEAU RESULTAT *//
+//* FONCTION AFFICHER TABLEAU RESULTATS
 
-// // function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
-// // 	var resultatDiv = document.getElementById("resultats");
-
-// // 	resultatDiv.innerHTML = ""; // Nettoyer le contenu précédent
-
-// // 	var table = document.createElement("table");
-// // 	var tbody = document.createElement("tbody");
-
-// // 	tableau.forEach(function (rowData) {
-// // 		var row = document.createElement("tr");
-
-// // 		rowData.forEach(function (cellData) {
-// // 			var cell = document.createElement("td");
-// // 			cell.appendChild(document.createTextNode(cellData));
-// // 			row.appendChild(cell);
-// // 		});
-
-// // 		tbody.appendChild(row);
-// // 	});
-
-// // 	table.appendChild(tbody);
-// // 	resultatDiv.appendChild(table);
-
-// // 	// Afficher les résultats passés en paramètres
-// // 	var infoDiv = document.createElement("div");
-// // 	infoDiv.innerHTML =
-// // 		//
-// // 		"Votre ampérage doit être de : " +
-// // 		amperage.min +
-// // 		"A" +
-// // 		" et " +
-// // 		amperage.max +
-// // 		"A" +
-// // 		"<br>" +
-// // 		//
-// // 		"Votre intensité doit être de : " +
-// // 		intensite.min +
-// // 		"A" +
-// // 		" et " +
-// // 		intensite.max +
-// // 		"A" +
-// // 		"<br>" +
-// // 		//
-// // 		"Votre vitesse d'avance doit être de : " +
-// // 		vitesseFil.min +
-// // 		"A" +
-// // 		" et " +
-// // 		vitesseFil.max +
-// // 		"A";
-// // 	resultatDiv.appendChild(infoDiv);
-// // }
-
-// //* CETTE FONCTION EFFACE LES CHAMPS NON UTILISER
-
-// function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
-// 	var resultatDiv = document.getElementById("resultats");
-
-// 	resultatDiv.style.display = "block";
-// 	resultatDiv.innerHTML = ""; // Nettoyer le contenu précédent
-
-// 	var table = document.createElement("table");
-// 	var tbody = document.createElement("tbody");
-
-// 	tableau.forEach(function (rowData) {
-// 		// Vérifier si la valeur de la deuxième colonne est définie
-// 		if (typeof rowData[1] !== "undefined") {
-// 			var row = document.createElement("tr");
-// 			var cell1 = document.createElement("td");
-// 			cell1.appendChild(document.createTextNode(rowData[0]));
-// 			var cell2 = document.createElement("td");
-// 			cell2.appendChild(document.createTextNode(rowData[1]));
-// 			row.appendChild(cell1);
-// 			row.appendChild(cell2);
-// 			tbody.appendChild(row);
-// 		}
-// 	});
-
-// 	table.appendChild(tbody);
-// 	resultatDiv.appendChild(table);
-
-// 	// Afficher les résultats passés en paramètres
-// 	var infoDiv = document.createElement("div");
-// 	infoDiv.innerHTML = `  <tr>
-//             <td>Amperage</td>
-//             <td>${amperage.min}A - ${amperage.max}A</td>
-//         </tr>
-//         <tr>
-//             <td>Intensité</td>
-//             <td>${intensite.min}A - ${intensite.max}A</td>
-//         </tr>
-//         <tr>
-//             <td>Vitesse de fil</td>
-//             <td>${vitesseFil.min}A - ${vitesseFil.max}A</td>
-//         </tr>
-//     `;
-// 	// "Votre ampérage doit être de : " +
-// 	// amperage.min +
-// 	// "A" +
-// 	// " et " +
-// 	// amperage.max +
-// 	// "A" +
-// 	// "<br>" +
-// 	// "Votre intensité doit être de : " +
-// 	// intensite.min +
-// 	// "A" +
-// 	// " et " +
-// 	// intensite.max +
-// 	// "A" +
-// 	// "<br>" +
-// 	// "Votre vitesse d'avance doit être de : " +
-// 	// vitesseFil.min +
-// 	// "A" +
-// 	// " et " +
-// 	// vitesseFil.max +
-// 	// "A";
-// 	// table.appendChild(tbody);
-// 	resultatDiv.appendChild(infoDiv);
-// }
-
-// module.exports = afficherTableauResultats;
+var ajouterBoutonRefresh = require("./buttonRefresh");
 function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
   var resultatDiv = document.getElementById("resultats");
 
@@ -356,6 +264,9 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
 
   // Flouter l'arrière-plan
   document.body.classList.add("modal-open");
+
+  // Animation fenêtre
+  document.getElementById("resultats").classList.add("show");
 
   // Nettoyer le contenu précédent
   resultatDiv.innerHTML = "";
@@ -402,9 +313,12 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
   tbody.appendChild(vitesseFilRow);
   table.appendChild(tbody);
   resultatDiv.appendChild(table);
+
+  //* FONCTION BOUTTON REFRESH *//
+  ajouterBoutonRefresh();
 }
 module.exports = afficherTableauResultats;
-},{}],"js/baseDeDonneesArc.js":[function(require,module,exports) {
+},{"./buttonRefresh":"js/buttonRefresh.js"}],"js/baseDeDonneesArc.js":[function(require,module,exports) {
 var optionsDatabaseArc = {
   arc: {
     acier: {
@@ -574,7 +488,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58709" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54210" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

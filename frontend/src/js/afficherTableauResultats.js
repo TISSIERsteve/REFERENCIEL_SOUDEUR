@@ -1,125 +1,7 @@
-// // //* FONCTION AFFICHER TABLEAU RESULTAT *//
+//* FONCTION AFFICHER TABLEAU RESULTATS
 
-// // function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
-// // 	var resultatDiv = document.getElementById("resultats");
+const ajouterBoutonRefresh = require("./buttonRefresh");
 
-// // 	resultatDiv.innerHTML = ""; // Nettoyer le contenu précédent
-
-// // 	var table = document.createElement("table");
-// // 	var tbody = document.createElement("tbody");
-
-// // 	tableau.forEach(function (rowData) {
-// // 		var row = document.createElement("tr");
-
-// // 		rowData.forEach(function (cellData) {
-// // 			var cell = document.createElement("td");
-// // 			cell.appendChild(document.createTextNode(cellData));
-// // 			row.appendChild(cell);
-// // 		});
-
-// // 		tbody.appendChild(row);
-// // 	});
-
-// // 	table.appendChild(tbody);
-// // 	resultatDiv.appendChild(table);
-
-// // 	// Afficher les résultats passés en paramètres
-// // 	var infoDiv = document.createElement("div");
-// // 	infoDiv.innerHTML =
-// // 		//
-// // 		"Votre ampérage doit être de : " +
-// // 		amperage.min +
-// // 		"A" +
-// // 		" et " +
-// // 		amperage.max +
-// // 		"A" +
-// // 		"<br>" +
-// // 		//
-// // 		"Votre intensité doit être de : " +
-// // 		intensite.min +
-// // 		"A" +
-// // 		" et " +
-// // 		intensite.max +
-// // 		"A" +
-// // 		"<br>" +
-// // 		//
-// // 		"Votre vitesse d'avance doit être de : " +
-// // 		vitesseFil.min +
-// // 		"A" +
-// // 		" et " +
-// // 		vitesseFil.max +
-// // 		"A";
-// // 	resultatDiv.appendChild(infoDiv);
-// // }
-
-// //* CETTE FONCTION EFFACE LES CHAMPS NON UTILISER
-
-// function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
-// 	var resultatDiv = document.getElementById("resultats");
-
-// 	resultatDiv.style.display = "block";
-// 	resultatDiv.innerHTML = ""; // Nettoyer le contenu précédent
-
-// 	var table = document.createElement("table");
-// 	var tbody = document.createElement("tbody");
-
-// 	tableau.forEach(function (rowData) {
-// 		// Vérifier si la valeur de la deuxième colonne est définie
-// 		if (typeof rowData[1] !== "undefined") {
-// 			var row = document.createElement("tr");
-// 			var cell1 = document.createElement("td");
-// 			cell1.appendChild(document.createTextNode(rowData[0]));
-// 			var cell2 = document.createElement("td");
-// 			cell2.appendChild(document.createTextNode(rowData[1]));
-// 			row.appendChild(cell1);
-// 			row.appendChild(cell2);
-// 			tbody.appendChild(row);
-// 		}
-// 	});
-
-// 	table.appendChild(tbody);
-// 	resultatDiv.appendChild(table);
-
-// 	// Afficher les résultats passés en paramètres
-// 	var infoDiv = document.createElement("div");
-// 	infoDiv.innerHTML = `  <tr>
-//             <td>Amperage</td>
-//             <td>${amperage.min}A - ${amperage.max}A</td>
-//         </tr>
-//         <tr>
-//             <td>Intensité</td>
-//             <td>${intensite.min}A - ${intensite.max}A</td>
-//         </tr>
-//         <tr>
-//             <td>Vitesse de fil</td>
-//             <td>${vitesseFil.min}A - ${vitesseFil.max}A</td>
-//         </tr>
-//     `;
-// 	// "Votre ampérage doit être de : " +
-// 	// amperage.min +
-// 	// "A" +
-// 	// " et " +
-// 	// amperage.max +
-// 	// "A" +
-// 	// "<br>" +
-// 	// "Votre intensité doit être de : " +
-// 	// intensite.min +
-// 	// "A" +
-// 	// " et " +
-// 	// intensite.max +
-// 	// "A" +
-// 	// "<br>" +
-// 	// "Votre vitesse d'avance doit être de : " +
-// 	// vitesseFil.min +
-// 	// "A" +
-// 	// " et " +
-// 	// vitesseFil.max +
-// 	// "A";
-// 	// table.appendChild(tbody);
-// 	resultatDiv.appendChild(infoDiv);
-// }
-
-// module.exports = afficherTableauResultats;
 function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
 	var resultatDiv = document.getElementById("resultats");
 
@@ -128,6 +10,9 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
 
 	// Flouter l'arrière-plan
 	document.body.classList.add("modal-open");
+
+	// Animation fenêtre
+	document.getElementById("resultats").classList.add("show");
 
 	// Nettoyer le contenu précédent
 	resultatDiv.innerHTML = "";
@@ -185,6 +70,9 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
 
 	table.appendChild(tbody);
 	resultatDiv.appendChild(table);
+
+	//* FONCTION BOUTTON REFRESH *//
+	ajouterBoutonRefresh();
 }
 
 module.exports = afficherTableauResultats;

@@ -2,8 +2,6 @@
 
 // Récupérer l'élément select
 const typeSoudureSelect = document.getElementById("typeSoudure");
-
-// Ajouter un écouteur d'événements pour le changement
 typeSoudureSelect.addEventListener("change", afficherChampsSupplementaires);
 
 // Définir la fonction afficherChampsSupplementaires
