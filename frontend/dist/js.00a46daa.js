@@ -128,6 +128,8 @@ typeSoudureSelect.addEventListener("change", afficherChampsSupplementaires);
 function afficherChampsSupplementaires() {}
 function afficherChampsSupplementaires() {
   var typeSoudure = document.getElementById("typeSoudure").value;
+  var typeMateriau = document.getElementById("typeMateriau");
+  var diametreElectrode = document.getElementById("diametreElectrode");
   var typeElectrode = document.getElementById("typeElectrode");
   var typeCourant = document.getElementById("typeCourant");
   var champsArc = document.getElementById("champsArc");
@@ -135,7 +137,6 @@ function afficherChampsSupplementaires() {
   var champsMAG = document.getElementById("champsMAG");
   var champsTIG = document.getElementById("champsTIG");
   var metalApport = document.getElementById("metalApport");
-  var typeMateriau = document.getElementById("typeMateriau");
 
   // Masquer tous les champs supplémentaires
   champsArc.style.display = "none";
@@ -152,11 +153,13 @@ function afficherChampsSupplementaires() {
   typeCourant.disabled = true;
 
   // Afficher les champs supplémentaires en fonction du type de soudure sélectionné
+
   // *ARC*//
   if (typeSoudure === "arc") {
     champsArc.style.display = "block";
 
     // Désactiver les champs non nécessaires
+
     typeElectrode.innerHTML = '<option value=""></option>';
 
     // Initialiser les champs nécessaire à la recherche
@@ -169,7 +172,7 @@ function afficherChampsSupplementaires() {
     // Fonction choix style enrobage électrode
     typeElectrode.addEventListener("change", function () {
       typeCourant.disabled = false;
-      typeCourant.innerHTML = ""; // Effacer les options précédentes
+      typeCourant.innerHTML = "";
       if (typeElectrode.value === "rutile") {
         typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
       } else if (typeElectrode.value === "basique") {
@@ -181,10 +184,14 @@ function afficherChampsSupplementaires() {
     // *MIG*//
   } else if (typeSoudure === "mig") {
     champsMIG.style.display = "block";
+
+    // Désactiver les champs non nécessaires
+    typeElectrode.disabled = true;
+    diametreElectrode.disabled = true;
     typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
     typeMateriau.addEventListener("change", function () {
       typeCourant.disabled = false;
-      typeCourant.innerHTML = ""; // Effacer les options précédentes
+      typeCourant.innerHTML = "";
       if (typeMateriau.value === "aluminium") {
         typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
       }
@@ -318,7 +325,7 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
   ajouterBoutonRefresh();
 }
 module.exports = afficherTableauResultats;
-},{"./buttonRefresh":"js/buttonRefresh.js"}],"js/baseDeDonneesArc.js":[function(require,module,exports) {
+},{"./buttonRefresh":"js/buttonRefresh.js"}],"../../backend/data/dataArc.js":[function(require,module,exports) {
 var optionsDatabaseArc = {
   arc: {
     acier: {
@@ -358,37 +365,94 @@ var optionsDatabaseArc = {
   }
 };
 module.exports = optionsDatabaseArc;
+},{}],"../../backend/data/dataMig.js":[function(require,module,exports) {
+var optionsDatabaseMig = {
+  mig: {
+    aluminium: {
+      epaisseur: {
+        1: {
+          diametreFil: {
+            0.6: {
+              position: {
+                plat_penetration: {
+                  typeCourant: {
+                    continu_Negatif: {
+                      intensite: {
+                        min: 0,
+                        max: 1
+                      },
+                      amperage: {
+                        min: 0,
+                        max: 2
+                      },
+                      vitesseFil: {
+                        min: 3,
+                        max: 6
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+module.exports = optionsDatabaseMig;
 },{}],"js/rechercher.js":[function(require,module,exports) {
-//* FONCTION RECHERCHER *//
+// //* FONCTION RECHERCHER *//
 
-var optionsDatabaseArc = require("./baseDeDonneesArc");
+var optionsDatabaseArc = require("../../../backend/data/dataArc");
+var optionsDatabaseMig = require("../../../backend/data/dataMig");
 function rechercher() {
   var typeSoudure = document.getElementById("typeSoudure").value;
   var typeMateriau = document.getElementById("typeMateriau").value;
   var epaisseur = parseFloat(document.getElementById("epaisseur").value);
   var diametreElectrode = parseFloat(document.getElementById("diametreElectrode").value);
+  var diametreFil = document.getElementById("diametreFil").value;
   var typeElectrode = document.getElementById("typeElectrode").value;
   var positionSoudure = document.getElementById("positionSoudure").value;
   var typeCourant = document.getElementById("typeCourant").value;
   var intensite, amperage, vitesseFil;
-  if (optionsDatabaseArc[typeSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant]) {
-    intensite = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].intensite;
-    amperage = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].amperage;
-    vitesseFil = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].vitesseFil;
-    return {
-      intensite: intensite,
-      amperage: amperage,
-      vitesseFil: vitesseFil
-    };
+  var optionsDatabase;
+  if (typeSoudure === "arc") {
+    optionsDatabase = optionsDatabaseArc;
+  } else if (typeSoudure === "mig") {
+    optionsDatabase = optionsDatabaseMig;
+  } else {
+    // Gestion d'un type de soudure inconnu ou non pris en charge
+    console.error("Type de soudure non pris en charge : " + typeSoudure);
+    return null;
   }
-
-  // alert(
-  // 	// "Les options sélectionnées ne sont pas disponibles dans la base de données.",
-  // );
+  if (typeSoudure === "arc") {
+    if (optionsDatabaseArc[typeSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant]) {
+      intensite = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].intensite;
+      amperage = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].amperage;
+      vitesseFil = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].vitesseFil;
+      return {
+        intensite: intensite,
+        amperage: amperage,
+        vitesseFil: vitesseFil
+      };
+    }
+  } else if (typeSoudure === "mig") {
+    if (optionsDatabaseMig[typeSoudure] && optionsDatabaseMig[typeSoudure][typeMateriau] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant]) {
+      intensite = optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant].intensite;
+      amperage = optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant].amperage;
+      vitesseFil = optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant].vitesseFil;
+      return {
+        intensite: intensite,
+        amperage: amperage,
+        vitesseFil: vitesseFil
+      };
+    }
+  }
   return null;
 }
 module.exports = rechercher;
-},{"./baseDeDonneesArc":"js/baseDeDonneesArc.js"}],"js/calculer.js":[function(require,module,exports) {
+},{"../../../backend/data/dataArc":"../../backend/data/dataArc.js","../../../backend/data/dataMig":"../../backend/data/dataMig.js"}],"js/calculer.js":[function(require,module,exports) {
 //* FONCTION CALCULER *//
 
 // Import de mes fichiers
@@ -405,56 +469,128 @@ calculerButton.addEventListener("click", function () {
 function calculer() {
   // Vérifier si tous les champs sont remplis
   var champsRemplis = true;
-  var champsRequis = ["typeSoudure", "typeMateriau", "epaisseur", "diametreElectrode", "typeElectrode", "diametreFil", "diametreFilMAG", "diametreTungstene", "metalApport", "positionSoudure", "typeCourant"];
-  console.log(champsRequis);
+  var champsRequis = ["typeSoudure", "typeMateriau", "epaisseur"];
 
-  // Si tous les champs ne sont pas remplis, return
+  // Si le type de soudure est "arc", ajouter les champs de l'arc au tableau des champs requis
+  if (document.getElementById("typeSoudure").value === "arc") {
+    champsRequis.push("diametreElectrode");
+    champsRequis.push("typeElectrode");
+
+    // Si le type de soudure est "mig", ajouter le champ "diametreFil" aux champs requis
+  } else if (document.getElementById("typeSoudure").value === "mig") {
+    champsRequis.push("diametreFil");
+
+    // Si le type de soudure est "mag", ajouter le champ "diametreFilMAG" aux champs requis
+  } else if (document.getElementById("typeSoudure").value === "mag") {
+    champsRequis.push("diametreFilMAG");
+
+    // Si le type de soudure est "tig", ajouter les champs du tig au tableau des champs requis
+  } else if (document.getElementById("typeSoudure").value === "tig") {
+    champsRequis.push("diametreTungstene");
+    champsRequis.push("metalApport");
+  }
+
+  // Si tous les champs ne sont pas remplis, afficher un message d'alerte et arrêter la fonction
   champsRequis.forEach(function (champ) {
     if (document.getElementById(champ).value === "") {
       champsRemplis = false;
       return;
     }
   });
-
-  // Si tous les champs sont remplis, procéder au calcul
-  if (champsRemplis) {
-    // Rechercher les options pertinentes dans la base de données
-    var optionsTrouvees = rechercher();
-    if (optionsTrouvees) {
-      // Récupérer les valeurs des autres champs
-      var typeSoudure = document.getElementById("typeSoudure").value;
-      var typeMateriau = document.getElementById("typeMateriau").value;
-      var epaisseur = document.getElementById("epaisseur").value;
-      var diametreElectrode = document.getElementById("diametreElectrode").value;
-      var typeElectrode = document.getElementById("typeElectrode").value;
-      var diametreFil = document.getElementById("diametreFil").value;
-      var diametreFilMAG = document.getElementById("diametreFilMAG").value;
-      var diametreTungstene = document.getElementById("diametreTungstene").value;
-      var metalApport = document.getElementById("metalApport").value;
-      var positionSoudure = document.getElementById("positionSoudure").value;
-      var typeCourant = document.getElementById("typeCourant").value;
-
-      // Créer un tableau avec les valeurs récupérées
-
-      //* J AI RAJOUTER .VALUE POUR EFFACER LES CHAMPS NON REMPLIS
-      var tableauResultats = [["Type de Soudure", typeSoudure], ["Type de Matériau", typeMateriau], ["Épaisseur du Matériau (mm)", epaisseur], ["Diamètre de la Baguette (mm)", diametreElectrode], ["Type de Baguette", typeElectrode], ["Diamètre du Fil (mm)", diametreFil.value], ["Diamètre du Fil MAG (mm)", diametreFilMAG.value], ["Diamètre du Tungstène (mm)", diametreTungstene.value], ["Métal d'Apport", metalApport.value], ["Position de la Soudure", positionSoudure], ["Type de Courant", typeCourant]];
-
-      // Extraire les valeurs d'intensité, d'amperage et de vitesse de fil
-      var amperage = optionsTrouvees.amperage;
-      var intensite = optionsTrouvees.intensite;
-      var vitesseFil = optionsTrouvees.vitesseFil;
-
-      // Afficher le tableau dans la page HTML avec les valeurs d'intensité, d'amperage et de vitesse de fil
-      afficherTableauResultats(tableauResultats, amperage, intensite, vitesseFil);
-    } else {
-      alert("Les options sélectionnées ne sont pas disponibles dans la base de données.");
-    }
-  } else {
+  if (!champsRemplis) {
     alert("Veuillez remplir tous les champs avant de procéder au calcul.");
+    return;
+  }
+
+  // Rechercher les options pertinentes dans la base de données
+  var optionsTrouvees = rechercher();
+  if (optionsTrouvees) {
+    console.log("optionstrouvees", optionsTrouvees);
+    // Récupérer les valeurs des autres champs
+    var typeSoudure = document.getElementById("typeSoudure").value;
+    var typeMateriau = document.getElementById("typeMateriau").value;
+    var epaisseur = document.getElementById("epaisseur").value;
+
+    // Définir les variables spécifiques à chaque type de soudure
+    var diametreElectrode, typeElectrode, diametreFil, diametreFilMAG, diametreTungstene, metalApport;
+
+    // Assigner les valeurs spécifiques aux variables en fonction du type de soudure sélectionné
+    //* ARC
+    if (typeSoudure === "arc") {
+      diametreElectrode = document.getElementById("diametreElectrode").value;
+      typeElectrode = document.getElementById("typeElectrode").value;
+      //*MIG
+    } else if (typeSoudure === "mig") {
+      diametreFil = document.getElementById("diametreFil").value;
+      //*MAG
+    } else if (typeSoudure === "mag") {
+      diametreFilMAG = document.getElementById("diametreFilMAG").value;
+      //* TIG
+    } else if (typeSoudure === "tig") {
+      diametreTungstene = document.getElementById("diametreTungstene").value;
+      metalApport = document.getElementById("metalApport").value;
+    }
+
+    // Créer un tableau avec les valeurs récupérées
+    var tableauResultats = [["Type de Soudure", typeSoudure], ["Type de Matériau", typeMateriau], ["Épaisseur du Matériau (mm)", epaisseur]];
+
+    // Ajouter les valeurs spécifiques à chaque type de soudure dans le tableau de résultats
+    if (typeSoudure === "arc") {
+      tableauResultats.push(["Diamètre de la Baguette (mm)", diametreElectrode]);
+      tableauResultats.push(["Type de Baguette", typeElectrode]);
+    } else if (typeSoudure === "mig") {
+      tableauResultats.push(["Diamètre du Fil (mm)", diametreFil]);
+    } else if (typeSoudure === "mag") {
+      tableauResultats.push(["Diamètre du Fil MAG (mm)", diametreFilMAG]);
+    } else if (typeSoudure === "tig") {
+      tableauResultats.push(["Diamètre du Tungstène (mm)", diametreTungstene]);
+      tableauResultats.push(["Métal d'Apport", metalApport]);
+    }
+
+    // Extraire les valeurs d'intensité, d'amperage et de vitesse de fil
+    var amperage = optionsTrouvees.amperage;
+    var intensite = optionsTrouvees.intensite;
+    var vitesseFil = optionsTrouvees.vitesseFil;
+
+    // Afficher le tableau dans la page HTML avec les valeurs d'intensité, d'amperage et de vitesse de fil
+    afficherTableauResultats(tableauResultats, amperage, intensite, vitesseFil);
+  } else {
+    alert("Les options sélectionnées ne sont pas disponibles dans la base de données.");
   }
 }
-module.exports = calculer;
-},{"./afficherTableauResultats":"js/afficherTableauResultats.js","./rechercher":"js/rechercher.js"}],"js/index.js":[function(require,module,exports) {
+},{"./afficherTableauResultats":"js/afficherTableauResultats.js","./rechercher":"js/rechercher.js"}],"js/baseDeDonneesArc.js":[function(require,module,exports) {
+// const optionsDatabaseArc = {
+// 	arc: {
+// 		acier: {
+// 			epaisseur: {
+// 				1: {
+// 					baguettes: {
+// 						rutile: {
+// 							diametre: {
+// 								1.2: {
+// 									position: {
+// 										plat_penetration: {
+// 											typeCourant: {
+// 												continu_Negatif: {
+// 													intensite: { min: 50, max: 100 },
+// 													amperage: { min: 70, max: 120 },
+// 													vitesseFil: { min: 3, max: 6 },
+// 												},
+// 											},
+// 										},
+// 									},
+// 								},
+// 							},
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 	},
+// };
+
+// module.exports = optionsDatabaseArc;
+},{}],"js/index.js":[function(require,module,exports) {
 //* IMPORTATION DES FONCTIONS *//
 
 var afficherChampsSupplementaires = require("./afficherChampsSupplementaires");

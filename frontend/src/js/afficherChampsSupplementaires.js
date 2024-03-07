@@ -9,6 +9,8 @@ function afficherChampsSupplementaires() {}
 
 function afficherChampsSupplementaires() {
 	var typeSoudure = document.getElementById("typeSoudure").value;
+	var typeMateriau = document.getElementById("typeMateriau");
+	var diametreElectrode = document.getElementById("diametreElectrode");
 	var typeElectrode = document.getElementById("typeElectrode");
 	var typeCourant = document.getElementById("typeCourant");
 	var champsArc = document.getElementById("champsArc");
@@ -16,7 +18,6 @@ function afficherChampsSupplementaires() {
 	var champsMAG = document.getElementById("champsMAG");
 	var champsTIG = document.getElementById("champsTIG");
 	var metalApport = document.getElementById("metalApport");
-	var typeMateriau = document.getElementById("typeMateriau");
 
 	// Masquer tous les champs supplémentaires
 	champsArc.style.display = "none";
@@ -30,15 +31,16 @@ function afficherChampsSupplementaires() {
 
 	// Réinitialiser et désactiver les options du type de courant
 	typeCourant.innerHTML = '<option value="" disabled selected hidden></option>';
-
 	typeCourant.disabled = true;
 
 	// Afficher les champs supplémentaires en fonction du type de soudure sélectionné
+
 	// *ARC*//
 	if (typeSoudure === "arc") {
 		champsArc.style.display = "block";
 
 		// Désactiver les champs non nécessaires
+
 		typeElectrode.innerHTML = '<option value=""></option>';
 
 		// Initialiser les champs nécessaire à la recherche
@@ -51,7 +53,7 @@ function afficherChampsSupplementaires() {
 		// Fonction choix style enrobage électrode
 		typeElectrode.addEventListener("change", function () {
 			typeCourant.disabled = false;
-			typeCourant.innerHTML = ""; // Effacer les options précédentes
+			typeCourant.innerHTML = "";
 			if (typeElectrode.value === "rutile") {
 				typeCourant.innerHTML +=
 					'<option value="continu_Negatif">Courant Continu Négatif</option>';
@@ -67,11 +69,15 @@ function afficherChampsSupplementaires() {
 	} else if (typeSoudure === "mig") {
 		champsMIG.style.display = "block";
 
+		// Désactiver les champs non nécessaires
+		typeElectrode.disabled = true;
+		diametreElectrode.disabled = true;
+
 		typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
 
 		typeMateriau.addEventListener("change", function () {
 			typeCourant.disabled = false;
-			typeCourant.innerHTML = ""; // Effacer les options précédentes
+			typeCourant.innerHTML = "";
 			if (typeMateriau.value === "aluminium") {
 				typeCourant.innerHTML +=
 					'<option value="continu_Negatif">Courant Continu Négatif</option>';
