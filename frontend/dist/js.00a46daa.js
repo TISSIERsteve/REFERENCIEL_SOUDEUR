@@ -401,11 +401,45 @@ var optionsDatabaseMig = {
   }
 };
 module.exports = optionsDatabaseMig;
-},{}],"js/rechercher.js":[function(require,module,exports) {
+},{}],"js/fichierConditions.js/getOptionsArc.js":[function(require,module,exports) {
+var optionsDatabaseArc = require("../../../../backend/data/dataArc");
+function getOptionsArc(optionsDatabaseArc, typeSoudure, typeMateriau, epaisseur, typeElectrode, diametreElectrode, positionSoudure, typeCourant) {
+  if (optionsDatabaseArc[typeSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant]) {
+    intensite = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].intensite;
+    amperage = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].amperage;
+    vitesseFil = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].vitesseFil;
+    return {
+      intensite: intensite,
+      amperage: amperage,
+      vitesseFil: vitesseFil
+    };
+  }
+  return null;
+}
+module.exports = getOptionsArc;
+},{"../../../../backend/data/dataArc":"../../backend/data/dataArc.js"}],"js/fichierConditions.js/getOptionsMig.js":[function(require,module,exports) {
+var optionsDatabaseMig = require("../../../../backend/data/dataMig");
+function getOptionsMig(optionsDatabaseMig, typeSoudure, typeMateriau, epaisseur, diametreFil, positionSoudure, typeCourant) {
+  if (optionsDatabaseMig[typeSoudure] && optionsDatabaseMig[typeSoudure][typeMateriau] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant]) {
+    intensite = optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant].intensite;
+    amperage = optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant].amperage;
+    vitesseFil = optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant].vitesseFil;
+    return {
+      intensite: intensite,
+      amperage: amperage,
+      vitesseFil: vitesseFil
+    };
+  }
+  return null;
+}
+module.exports = getOptionsMig;
+},{"../../../../backend/data/dataMig":"../../backend/data/dataMig.js"}],"js/rechercher.js":[function(require,module,exports) {
 // //* FONCTION RECHERCHER *//
 
 var optionsDatabaseArc = require("../../../backend/data/dataArc");
 var optionsDatabaseMig = require("../../../backend/data/dataMig");
+var getOptionsArc = require("./fichierConditions.js/getOptionsArc");
+var getOptionsMig = require("./fichierConditions.js/getOptionsMig");
 function rechercher() {
   var typeSoudure = document.getElementById("typeSoudure").value;
   var typeMateriau = document.getElementById("typeMateriau").value;
@@ -419,18 +453,11 @@ function rechercher() {
   var optionsDatabase;
   if (typeSoudure === "arc") {
     optionsDatabase = optionsDatabaseArc;
-  } else if (typeSoudure === "mig") {
-    optionsDatabase = optionsDatabaseMig;
-  } else {
-    // Gestion d'un type de soudure inconnu ou non pris en charge
-    console.error("Type de soudure non pris en charge : " + typeSoudure);
-    return null;
-  }
-  if (typeSoudure === "arc") {
-    if (optionsDatabaseArc[typeSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant]) {
-      intensite = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].intensite;
-      amperage = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].amperage;
-      vitesseFil = optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant].vitesseFil;
+    var options = getOptionsArc(optionsDatabase, typeSoudure, typeMateriau, epaisseur, typeElectrode, diametreElectrode, positionSoudure, typeCourant);
+    if (options) {
+      intensite = options.intensite;
+      amperage = options.amperage;
+      vitesseFil = options.vitesseFil;
       return {
         intensite: intensite,
         amperage: amperage,
@@ -438,10 +465,11 @@ function rechercher() {
       };
     }
   } else if (typeSoudure === "mig") {
-    if (optionsDatabaseMig[typeSoudure] && optionsDatabaseMig[typeSoudure][typeMateriau] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant]) {
-      intensite = optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant].intensite;
-      amperage = optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant].amperage;
-      vitesseFil = optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant].vitesseFil;
+    var _options = getOptionsMig(optionsDatabaseMig, typeSoudure, typeMateriau, epaisseur, diametreFil, positionSoudure, typeCourant);
+    if (_options) {
+      intensite = _options.intensite;
+      amperage = _options.amperage;
+      vitesseFil = _options.vitesseFil;
       return {
         intensite: intensite,
         amperage: amperage,
@@ -449,10 +477,11 @@ function rechercher() {
       };
     }
   }
+  console.error("Type de soudure non pris en charge : " + typeSoudure);
   return null;
 }
 module.exports = rechercher;
-},{"../../../backend/data/dataArc":"../../backend/data/dataArc.js","../../../backend/data/dataMig":"../../backend/data/dataMig.js"}],"js/calculer.js":[function(require,module,exports) {
+},{"../../../backend/data/dataArc":"../../backend/data/dataArc.js","../../../backend/data/dataMig":"../../backend/data/dataMig.js","./fichierConditions.js/getOptionsArc":"js/fichierConditions.js/getOptionsArc.js","./fichierConditions.js/getOptionsMig":"js/fichierConditions.js/getOptionsMig.js"}],"js/calculer.js":[function(require,module,exports) {
 //* FONCTION CALCULER *//
 
 // Import de mes fichiers
@@ -624,7 +653,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54210" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55232" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

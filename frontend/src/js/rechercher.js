@@ -2,6 +2,8 @@
 
 const optionsDatabaseArc = require("../../../backend/data/dataArc");
 const optionsDatabaseMig = require("../../../backend/data/dataMig");
+const getOptionsArc = require("./fichierConditions.js/getOptionsArc");
+const getOptionsMig = require("./fichierConditions.js/getOptionsMig");
 
 function rechercher() {
 	var typeSoudure = document.getElementById("typeSoudure").value;
@@ -20,100 +22,42 @@ function rechercher() {
 
 	if (typeSoudure === "arc") {
 		optionsDatabase = optionsDatabaseArc;
-	} else if (typeSoudure === "mig") {
-		optionsDatabase = optionsDatabaseMig;
-	} else {
-		// Gestion d'un type de soudure inconnu ou non pris en charge
-		console.error("Type de soudure non pris en charge : " + typeSoudure);
-		return null;
-	}
-
-	if (typeSoudure === "arc") {
-		if (
-			optionsDatabaseArc[typeSoudure] &&
-			optionsDatabaseArc[typeSoudure][typeMateriau] &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur] &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.baguettes &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.baguettes[typeElectrode] &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.baguettes[typeElectrode].diametre &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.baguettes[typeElectrode].diametre[diametreElectrode] &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.baguettes[typeElectrode].diametre[diametreElectrode].position &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.baguettes[typeElectrode].diametre[diametreElectrode].position[
-				positionSoudure
-			] &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.baguettes[typeElectrode].diametre[diametreElectrode].position[
-				positionSoudure
-			].typeCourant &&
-			optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.baguettes[typeElectrode].diametre[diametreElectrode].position[
-				positionSoudure
-			].typeCourant[typeCourant]
-		) {
-			intensite =
-				optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-					.baguettes[typeElectrode].diametre[diametreElectrode].position[
-					positionSoudure
-				].typeCourant[typeCourant].intensite;
-			amperage =
-				optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-					.baguettes[typeElectrode].diametre[diametreElectrode].position[
-					positionSoudure
-				].typeCourant[typeCourant].amperage;
-			vitesseFil =
-				optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur]
-					.baguettes[typeElectrode].diametre[diametreElectrode].position[
-					positionSoudure
-				].typeCourant[typeCourant].vitesseFil;
+		const options = getOptionsArc(
+			optionsDatabase,
+			typeSoudure,
+			typeMateriau,
+			epaisseur,
+			typeElectrode,
+			diametreElectrode,
+			positionSoudure,
+			typeCourant,
+		);
+		if (options) {
+			intensite = options.intensite;
+			amperage = options.amperage;
+			vitesseFil = options.vitesseFil;
 			return { intensite, amperage, vitesseFil };
 		}
 	} else if (typeSoudure === "mig") {
-		if (
-			optionsDatabaseMig[typeSoudure] &&
-			optionsDatabaseMig[typeSoudure][typeMateriau] &&
-			optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur &&
-			optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur] &&
-			optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.diametreFil &&
-			optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.diametreFil[diametreFil] &&
-			optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.diametreFil[diametreFil].position &&
-			optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.diametreFil[diametreFil].position[positionSoudure] &&
-			optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.diametreFil[diametreFil].position[positionSoudure].typeCourant &&
-			optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur]
-				.diametreFil[diametreFil].position[positionSoudure].typeCourant[
-				typeCourant
-			]
-		) {
-			intensite =
-				optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur]
-					.diametreFil[diametreFil].position[positionSoudure].typeCourant[
-					typeCourant
-				].intensite;
-			amperage =
-				optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur]
-					.diametreFil[diametreFil].position[positionSoudure].typeCourant[
-					typeCourant
-				].amperage;
-			vitesseFil =
-				optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur]
-					.diametreFil[diametreFil].position[positionSoudure].typeCourant[
-					typeCourant
-				].vitesseFil;
+		const options = getOptionsMig(
+			optionsDatabaseMig,
+			typeSoudure,
+			typeMateriau,
+			epaisseur,
+			diametreFil,
+			positionSoudure,
+			typeCourant,
+		);
+		if (options) {
+			intensite = options.intensite;
+			amperage = options.amperage;
+			vitesseFil = options.vitesseFil;
 			return { intensite, amperage, vitesseFil };
 		}
 	}
 
+	console.error("Type de soudure non pris en charge : " + typeSoudure);
 	return null;
 }
+
 module.exports = rechercher;
