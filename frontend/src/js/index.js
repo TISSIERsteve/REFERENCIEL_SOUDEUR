@@ -5,5 +5,3 @@ const calculer = require("./calculer");
 
 const afficherTableauResultats = require("./afficherTableauResultats");
 const optionsDatabaseArc = require("./baseDeDonneesArc");
-
-// console.log(optionsDatabaseArc); //

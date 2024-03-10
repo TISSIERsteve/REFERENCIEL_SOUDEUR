@@ -29,6 +29,7 @@ function calculer() {
 		// Si le type de soudure est "mag", ajouter le champ "diametreFilMAG" aux champs requis
 	} else if (document.getElementById("typeSoudure").value === "mag") {
 		champsRequis.push("diametreFilMAG");
+		champsRequis.push("typeFilMAG"); // Ajout pour options fil plein fil fourre
 
 		// Si le type de soudure est "tig", ajouter les champs du tig au tableau des champs requis
 	} else if (document.getElementById("typeSoudure").value === "tig") {
@@ -49,7 +50,7 @@ function calculer() {
 		return;
 	}
 
-	// Rechercher les options pertinentes dans la base de données
+	// Rechercher les options dans la base de données
 	var optionsTrouvees = rechercher();
 
 	if (optionsTrouvees) {
@@ -68,23 +69,28 @@ function calculer() {
 			metalApport;
 
 		// Assigner les valeurs spécifiques aux variables en fonction du type de soudure sélectionné
-		//* ARC
+
+		//* ARC *//
 		if (typeSoudure === "arc") {
 			diametreElectrode = document.getElementById("diametreElectrode").value;
 			typeElectrode = document.getElementById("typeElectrode").value;
+
 			//*MIG
 		} else if (typeSoudure === "mig") {
 			diametreFil = document.getElementById("diametreFil").value;
+
 			//*MAG
 		} else if (typeSoudure === "mag") {
 			diametreFilMAG = document.getElementById("diametreFilMAG").value;
+			typeFilMAG = document.getElementById("typeFilMAG").value;
+
 			//* TIG
 		} else if (typeSoudure === "tig") {
 			diametreTungstene = document.getElementById("diametreTungstene").value;
 			metalApport = document.getElementById("metalApport").value;
 		}
 
-		// Créer un tableau avec les valeurs récupérées
+		// Tableau avec les valeurs récupérées
 		var tableauResultats = [
 			["Type de Soudure", typeSoudure],
 			["Type de Matériau", typeMateriau],
@@ -102,6 +108,7 @@ function calculer() {
 			tableauResultats.push(["Diamètre du Fil (mm)", diametreFil]);
 		} else if (typeSoudure === "mag") {
 			tableauResultats.push(["Diamètre du Fil MAG (mm)", diametreFilMAG]);
+			tableauResultats.push(["Type de Fil MAG", typeFilMAG]); // Ajouter le type de fil MAG au tableau de résultats
 		} else if (typeSoudure === "tig") {
 			tableauResultats.push(["Diamètre du Tungstène (mm)", diametreTungstene]);
 			tableauResultats.push(["Métal d'Apport", metalApport]);
