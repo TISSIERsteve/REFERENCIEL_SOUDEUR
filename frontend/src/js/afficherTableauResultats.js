@@ -1,5 +1,6 @@
 //* FONCTION AFFICHER TABLEAU RESULTATS
 
+// Import de mes fichiers
 const ajouterBoutonRefresh = require("./buttonRefresh");
 
 function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {

@@ -12,6 +12,7 @@ calculerButton.addEventListener("click", function () {
 	calculer();
 });
 
+// Fonctions
 function calculer() {
 	// Vérifier si tous les champs sont remplis
 	var champsRemplis = true;
@@ -68,8 +69,6 @@ function calculer() {
 			diametreTungstene,
 			metalApport;
 
-		// Assigner les valeurs spécifiques aux variables en fonction du type de soudure sélectionné
-
 		//* ARC *//
 		if (typeSoudure === "arc") {
 			diametreElectrode = document.getElementById("diametreElectrode").value;
@@ -98,17 +97,21 @@ function calculer() {
 		];
 
 		// Ajouter les valeurs spécifiques à chaque type de soudure dans le tableau de résultats
+		//* ARC
 		if (typeSoudure === "arc") {
 			tableauResultats.push([
 				"Diamètre de la Baguette (mm)",
 				diametreElectrode,
 			]);
 			tableauResultats.push(["Type de Baguette", typeElectrode]);
+			//* MIG
 		} else if (typeSoudure === "mig") {
 			tableauResultats.push(["Diamètre du Fil (mm)", diametreFil]);
+			//* MAG
 		} else if (typeSoudure === "mag") {
 			tableauResultats.push(["Diamètre du Fil MAG (mm)", diametreFilMAG]);
-			tableauResultats.push(["Type de Fil MAG", typeFilMAG]); // Ajouter le type de fil MAG au tableau de résultats
+			tableauResultats.push(["Type de Fil MAG", typeFilMAG]);
+			//* TIG
 		} else if (typeSoudure === "tig") {
 			tableauResultats.push(["Diamètre du Tungstène (mm)", diametreTungstene]);
 			tableauResultats.push(["Métal d'Apport", metalApport]);

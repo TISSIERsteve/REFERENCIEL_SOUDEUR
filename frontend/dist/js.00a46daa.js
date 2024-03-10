@@ -154,73 +154,22 @@ function afficherChampsSupplementaires() {
   typeCourant.innerHTML = '<option value="" disabled selected hidden></option>';
   typeCourant.disabled = true;
 
-  // Afficher les champs supplémentaires en fonction du type de soudure sélectionné
-  // // *ARC*//
-  // if (typeSoudure === "arc") {
-  // 	champsArc.style.display = "block";
-
-  // 	// Désactiver les champs non nécessaires
-  // 	typeElectrode.innerHTML = '<option value=""></option>';
-  // 	typeElectrode.innerHTML += '<option value="rutile">Rutile</option>';
-  // 	typeElectrode.innerHTML += '<option value="basique">Basique</option>';
-  // 	typeElectrode.innerHTML += '<option value="inox">Baguette Inox</option>';
-  // 	typeMateriau.innerHTML += '<option value="acier">Acier</option>';
-  // 	typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
-  // 	typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
-
-  // 	// Fonction choix style enrobage électrode
-  // 	typeElectrode.addEventListener("change", function () {
-  // 		typeCourant.disabled = false;
-  // 		typeCourant.innerHTML = "";
-  // 		if (typeElectrode.value === "inox") {
-  // 			// Si "Baguette Inox" est sélectionné, aucun courant n'est nécessaire
-  // 			return;
-  // 		}
-  // 		// Sinon, ajouter les options de courant appropriées
-  // 		if (typeElectrode.value === "rutile") {
-  // 			typeCourant.innerHTML +=
-  // 				'<option value="continu_Negatif">Courant Continu Négatif</option>';
-  // 		} else if (typeElectrode.value === "basique") {
-  // 			typeCourant.innerHTML +=
-  // 				'<option value="continu_Positif">Courant Continu Positif</option>';
-  // 			typeCourant.innerHTML +=
-  // 				'<option value="continu_Negatif">Courant Continu Négatif</option>';
-  // 		}
-  // 	});
-
-  // 	// Supprimer l'option "Baguette Inox" lorsque "Acier" est sélectionné
-  // 	typeMateriau.addEventListener("change", function () {
-  // 		const optionInox = typeElectrode.querySelector('option[value="inox"]');
-  // 		if (typeMateriau.value === "acier") {
-  // 			if (optionInox) {
-  // 				optionInox.remove();
-  // 			}
-  // 		} else {
-  // 			if (!optionInox) {
-  // 				typeElectrode.innerHTML +=
-  // 					'<option value="inox">Baguette Inox</option>';
-  // 			}
-  // 		}
-  // 	});
-
   // *ARC*//
   if (typeSoudure === "arc") {
     champsArc.style.display = "block";
 
     // Désactiver les champs non nécessaires
     typeElectrode.innerHTML = '<option value=""></option>';
-
-    // Initialiser les champs nécessaire à la recherche
+    typeMateriau.innerHTML += '<option value="acier">Acier</option>';
     typeElectrode.innerHTML += '<option value="rutile">Rutile</option>';
     typeElectrode.innerHTML += '<option value="basique">Basique</option>';
-    typeMateriau.innerHTML += '<option value="acier">Acier</option>';
-    typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
-    typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
 
     // Fonction choix style enrobage électrode
     typeElectrode.addEventListener("change", function () {
       typeCourant.disabled = false;
       typeCourant.innerHTML = "";
+
+      // Ajouter les options de courant appropriées en fonction de la baguette
       if (typeElectrode.value === "rutile") {
         typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
       } else if (typeElectrode.value === "basique") {
@@ -249,12 +198,12 @@ function afficherChampsSupplementaires() {
   // *MAG*//
   else if (typeSoudure === "mag") {
     champsMAG.style.display = "block";
+
     // Afficher le champ "Type de Fil MAG"
     typeFilMAG.style.display = "block";
 
     // Réinitialiser les options du type de matériau
     typeMateriau.innerHTML = '<option value=""></option>';
-    // Ajouter les options pour l'acier et l'inox
     typeMateriau.innerHTML += '<option value="acier">Acier</option>';
     typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
     typeMateriau.addEventListener("change", function () {
@@ -269,16 +218,32 @@ function afficherChampsSupplementaires() {
   // *TIG*//
   else if (typeSoudure === "tig") {
     champsTIG.style.display = "block";
+    metalApport.style.display = "block";
+
     // Ajouter les options appropriées pour la soudure TIG
     typeMateriau.innerHTML += '<option value="acier">Acier</option>';
     typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
     typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
     typeMateriau.addEventListener("change", function () {
       typeCourant.disabled = false;
-      typeCourant.innerHTML = ""; // Effacer les options précédentes
-      if (typeMateriau.value === "acier" || typeMateriau.value === "inox") {
-        typeCourant.innerHTML += '<option value="continu_Positif">Courant Continu Positif</option>';
+      typeCourant.innerHTML = "";
+
+      //* ACIER
+      if (typeMateriau.value === "acier") {
+        metalApport.innerHTML = "";
+        metalApport.innerHTML += '<option value="acier">Acier</option>';
+        typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
+
+        //* INOX
+      } else if (typeMateriau.value === "inox") {
+        metalApport.innerHTML = "";
+        metalApport.innerHTML += '<option value="inox">Inox</option>';
+        typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
+
+        //* ALUMINIUM
       } else if (typeMateriau.value === "aluminium") {
+        metalApport.innerHTML = "";
+        metalApport.innerHTML += '<option value="aluminium">Aluminium</option>';
         typeCourant.innerHTML += '<option value="continu_Alternatif">Courant Alternatif</option>';
       }
     });
@@ -317,6 +282,7 @@ module.exports = ajouterBoutonRefresh;
 },{}],"js/afficherTableauResultats.js":[function(require,module,exports) {
 //* FONCTION AFFICHER TABLEAU RESULTATS
 
+// Import de mes fichiers
 var ajouterBoutonRefresh = require("./buttonRefresh");
 function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
   var resultatDiv = document.getElementById("resultats");
@@ -1083,12 +1049,15 @@ module.exports = getOptionsMag;
 },{"../../../../backend/data/dataMag":"../../backend/data/dataMag.js"}],"js/rechercher.js":[function(require,module,exports) {
 // //* FONCTION RECHERCHER *//
 
+// Import de mes fichiers
 var optionsDatabaseArc = require("../../../backend/data/dataArc");
 var optionsDatabaseMig = require("../../../backend/data/dataMig");
 var optionsDatabaseMag = require("../../../backend/data/dataMag");
 var getOptionsArc = require("./fichierConditions.js/getOptionsArc");
 var getOptionsMig = require("./fichierConditions.js/getOptionsMig");
 var getOptionsMag = require("./fichierConditions.js/getOptionsMag");
+
+// Fonctions
 function rechercher() {
   var typeSoudure = document.getElementById("typeSoudure").value;
   var typeMateriau = document.getElementById("typeMateriau").value;
@@ -1102,6 +1071,8 @@ function rechercher() {
   var typeFilMAG = document.getElementById("typeFilMAG").value;
   var intensite, amperage, vitesseFil;
   var optionsDatabase;
+
+  //* ARC
   if (typeSoudure === "arc") {
     optionsDatabase = optionsDatabaseArc;
     var options = getOptionsArc(optionsDatabase, typeSoudure, typeMateriau, epaisseur, typeElectrode, diametreElectrode, positionSoudure, typeCourant);
@@ -1115,6 +1086,7 @@ function rechercher() {
         vitesseFil: vitesseFil
       };
     }
+    //* MIG
   } else if (typeSoudure === "mig") {
     var _options = getOptionsMig(optionsDatabaseMig, typeSoudure, typeMateriau, epaisseur, diametreFil, positionSoudure, typeCourant);
     if (_options) {
@@ -1127,6 +1099,7 @@ function rechercher() {
         vitesseFil: vitesseFil
       };
     }
+    //* MAG
   } else if (typeSoudure === "mag") {
     optionsDatabase = optionsDatabaseMag;
     var _options2 = getOptionsMag(optionsDatabase, typeSoudure, typeMateriau, epaisseur, diametreFilMAG, positionSoudure, typeCourant, typeFilMAG);
@@ -1159,6 +1132,8 @@ var calculerButton = document.querySelector("button");
 calculerButton.addEventListener("click", function () {
   calculer();
 });
+
+// Fonctions
 function calculer() {
   // Vérifier si tous les champs sont remplis
   var champsRemplis = true;
@@ -1208,8 +1183,6 @@ function calculer() {
     // Définir les variables spécifiques à chaque type de soudure
     var diametreElectrode, typeElectrode, diametreFil, diametreFilMAG, diametreTungstene, metalApport;
 
-    // Assigner les valeurs spécifiques aux variables en fonction du type de soudure sélectionné
-
     //* ARC *//
     if (typeSoudure === "arc") {
       diametreElectrode = document.getElementById("diametreElectrode").value;
@@ -1234,14 +1207,18 @@ function calculer() {
     var tableauResultats = [["Type de Soudure", typeSoudure], ["Type de Matériau", typeMateriau], ["Épaisseur du Matériau (mm)", epaisseur]];
 
     // Ajouter les valeurs spécifiques à chaque type de soudure dans le tableau de résultats
+    //* ARC
     if (typeSoudure === "arc") {
       tableauResultats.push(["Diamètre de la Baguette (mm)", diametreElectrode]);
       tableauResultats.push(["Type de Baguette", typeElectrode]);
+      //* MIG
     } else if (typeSoudure === "mig") {
       tableauResultats.push(["Diamètre du Fil (mm)", diametreFil]);
+      //* MAG
     } else if (typeSoudure === "mag") {
       tableauResultats.push(["Diamètre du Fil MAG (mm)", diametreFilMAG]);
-      tableauResultats.push(["Type de Fil MAG", typeFilMAG]); // Ajouter le type de fil MAG au tableau de résultats
+      tableauResultats.push(["Type de Fil MAG", typeFilMAG]);
+      //* TIG
     } else if (typeSoudure === "tig") {
       tableauResultats.push(["Diamètre du Tungstène (mm)", diametreTungstene]);
       tableauResultats.push(["Métal d'Apport", metalApport]);

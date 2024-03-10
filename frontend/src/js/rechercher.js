@@ -1,5 +1,6 @@
 // //* FONCTION RECHERCHER *//
 
+// Import de mes fichiers
 const optionsDatabaseArc = require("../../../backend/data/dataArc");
 const optionsDatabaseMig = require("../../../backend/data/dataMig");
 const optionsDatabaseMag = require("../../../backend/data/dataMag");
@@ -7,6 +8,7 @@ const getOptionsArc = require("./fichierConditions.js/getOptionsArc");
 const getOptionsMig = require("./fichierConditions.js/getOptionsMig");
 const getOptionsMag = require("./fichierConditions.js/getOptionsMag");
 
+// Fonctions
 function rechercher() {
 	var typeSoudure = document.getElementById("typeSoudure").value;
 	var typeMateriau = document.getElementById("typeMateriau").value;
@@ -24,6 +26,7 @@ function rechercher() {
 	var intensite, amperage, vitesseFil;
 	var optionsDatabase;
 
+	//* ARC
 	if (typeSoudure === "arc") {
 		optionsDatabase = optionsDatabaseArc;
 		const options = getOptionsArc(
@@ -42,6 +45,7 @@ function rechercher() {
 			vitesseFil = options.vitesseFil;
 			return { intensite, amperage, vitesseFil };
 		}
+		//* MIG
 	} else if (typeSoudure === "mig") {
 		const options = getOptionsMig(
 			optionsDatabaseMig,
@@ -58,6 +62,7 @@ function rechercher() {
 			vitesseFil = options.vitesseFil;
 			return { intensite, amperage, vitesseFil };
 		}
+		//* MAG
 	} else if (typeSoudure === "mag") {
 		optionsDatabase = optionsDatabaseMag;
 
