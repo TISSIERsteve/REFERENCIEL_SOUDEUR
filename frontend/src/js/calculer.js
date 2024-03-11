@@ -57,7 +57,6 @@ function calculer() {
 	var optionsTrouvees = rechercher();
 
 	if (optionsTrouvees) {
-		console.log("optionstrouvees", optionsTrouvees);
 		// Récupérer les valeurs des autres champs
 		var typeSoudure = document.getElementById("typeSoudure").value;
 		var typeMateriau = document.getElementById("typeMateriau").value;

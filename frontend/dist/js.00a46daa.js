@@ -285,6 +285,7 @@ module.exports = ajouterBoutonRefresh;
 // Import de mes fichiers
 var ajouterBoutonRefresh = require("./buttonRefresh");
 function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
+  var typeAvance = tableau[0][1];
   var resultatDiv = document.getElementById("resultats");
 
   // Afficher la fenêtre de résultats
@@ -314,10 +315,18 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
     }
   });
 
+  // Conditions pour afficher le choix du type d'avance
+  var vitesseLabel;
+  if (typeAvance === "arc" || typeAvance === "tig") {
+    vitesseLabel = "Vitesse d'avance";
+  } else if (typeAvance === "mag" || typeAvance === "mig") {
+    vitesseLabel = "Vitesse de fil";
+  }
+
   // Ajouter les lignes pour amperage, intensite et vitesse de fil
   var amperageRow = document.createElement("tr");
   var amperageCell1 = document.createElement("td");
-  amperageCell1.appendChild(document.createTextNode("Amperage"));
+  amperageCell1.appendChild(document.createTextNode("Ampérage"));
   var amperageCell2 = document.createElement("td");
   amperageCell2.appendChild(document.createTextNode("".concat(amperage.min, "A - ").concat(amperage.max, "A")));
   amperageRow.appendChild(amperageCell1);
@@ -333,7 +342,9 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
   tbody.appendChild(intensiteRow);
   var vitesseFilRow = document.createElement("tr");
   var vitesseFilCell1 = document.createElement("td");
-  vitesseFilCell1.appendChild(document.createTextNode("Vitesse de fil"));
+
+  // Affichage de la condition vitesse
+  vitesseFilCell1.appendChild(document.createTextNode(vitesseLabel));
   var vitesseFilCell2 = document.createElement("td");
   vitesseFilCell2.appendChild(document.createTextNode("".concat(vitesseFil.min, "A - ").concat(vitesseFil.max, "A")));
   vitesseFilRow.appendChild(vitesseFilCell1);
@@ -1315,7 +1326,6 @@ function calculer() {
   // Rechercher les options dans la base de données
   var optionsTrouvees = rechercher();
   if (optionsTrouvees) {
-    console.log("optionstrouvees", optionsTrouvees);
     // Récupérer les valeurs des autres champs
     var typeSoudure = document.getElementById("typeSoudure").value;
     var typeMateriau = document.getElementById("typeMateriau").value;
@@ -1440,7 +1450,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56230" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51826" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

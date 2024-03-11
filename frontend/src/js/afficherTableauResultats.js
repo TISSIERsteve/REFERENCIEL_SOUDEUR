@@ -4,6 +4,7 @@
 const ajouterBoutonRefresh = require("./buttonRefresh");
 
 function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
+	var typeAvance = tableau[0][1];
 	var resultatDiv = document.getElementById("resultats");
 
 	// Afficher la fenêtre de résultats
@@ -29,16 +30,26 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
 			cell1.appendChild(document.createTextNode(rowData[0]));
 			var cell2 = document.createElement("td");
 			cell2.appendChild(document.createTextNode(rowData[1]));
+
 			row.appendChild(cell1);
 			row.appendChild(cell2);
 			tbody.appendChild(row);
 		}
 	});
 
+	// Conditions pour afficher le choix du type d'avance
+	var vitesseLabel;
+
+	if (typeAvance === "arc" || typeAvance === "tig") {
+		vitesseLabel = "Vitesse d'avance";
+	} else if (typeAvance === "mag" || typeAvance === "mig") {
+		vitesseLabel = "Vitesse de fil";
+	}
+
 	// Ajouter les lignes pour amperage, intensite et vitesse de fil
 	var amperageRow = document.createElement("tr");
 	var amperageCell1 = document.createElement("td");
-	amperageCell1.appendChild(document.createTextNode("Amperage"));
+	amperageCell1.appendChild(document.createTextNode("Ampérage"));
 	var amperageCell2 = document.createElement("td");
 	amperageCell2.appendChild(
 		document.createTextNode(`${amperage.min}A - ${amperage.max}A`),
@@ -60,7 +71,10 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
 
 	var vitesseFilRow = document.createElement("tr");
 	var vitesseFilCell1 = document.createElement("td");
-	vitesseFilCell1.appendChild(document.createTextNode("Vitesse de fil"));
+
+	// Affichage de la condition vitesse
+	vitesseFilCell1.appendChild(document.createTextNode(vitesseLabel));
+
 	var vitesseFilCell2 = document.createElement("td");
 	vitesseFilCell2.appendChild(
 		document.createTextNode(`${vitesseFil.min}A - ${vitesseFil.max}A`),
