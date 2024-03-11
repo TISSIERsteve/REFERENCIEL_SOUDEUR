@@ -14,6 +14,8 @@ calculerButton.addEventListener("click", function () {
 
 // Fonctions
 function calculer() {
+	// Déclaration de la variable diametreTungstene
+	var diametreTungstene;
 	// Vérifier si tous les champs sont remplis
 	var champsRemplis = true;
 	var champsRequis = ["typeSoudure", "typeMateriau", "epaisseur"];
