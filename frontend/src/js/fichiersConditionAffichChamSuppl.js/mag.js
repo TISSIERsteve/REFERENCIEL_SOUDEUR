@@ -1,4 +1,5 @@
 //* MAG
+
 function afficherMAG() {
 	champsMAG.style.display = "block";
 

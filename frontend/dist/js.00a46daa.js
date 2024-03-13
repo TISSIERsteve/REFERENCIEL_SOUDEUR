@@ -148,6 +148,7 @@ function afficherArc() {
 module.exports = afficherArc;
 },{}],"js/fichiersConditionAffichChamSuppl.js/mag.js":[function(require,module,exports) {
 //* MAG
+
 function afficherMAG() {
   champsMAG.style.display = "block";
 
@@ -235,10 +236,10 @@ var afficherMAG = require("./fichiersConditionAffichChamSuppl.js/mag");
 var afficherMIG = require("./fichiersConditionAffichChamSuppl.js/mig");
 var afficherTIG = require("./fichiersConditionAffichChamSuppl.js/tig");
 
-// Récupérer l'élément select
+// Récupérer l'élément typeSoudure onChange
 var typeSoudureSelect = document.getElementById("typeSoudure");
 
-// Ecouteurs d'évenements au change
+// Ecouteurs d'évenements onChange
 typeSoudureSelect.addEventListener("change", afficherChampsSupplementaires);
 function afficherChampsSupplementaires() {
   var typeSoudure = document.getElementById("typeSoudure").value;
@@ -269,9 +270,10 @@ function afficherChampsSupplementaires() {
   // *ARC*//
   if (typeSoudure === "arc") {
     afficherArc();
+  }
 
-    // *MIG*//
-  } else if (typeSoudure === "mig") {
+  // *MIG*//
+  else if (typeSoudure === "mig") {
     afficherMIG();
   }
 
@@ -394,38 +396,6 @@ function afficherTableauResultats(tableau, amperage, intensite, vitesseFil) {
 }
 module.exports = afficherTableauResultats;
 },{"./buttonRefresh":"js/buttonRefresh.js"}],"../../backend/data/dataArc.js":[function(require,module,exports) {
-// const optionsDatabaseArc = {
-// 	arc: {
-// 		acier: {
-// 			epaisseur: {
-// 				1: {
-// 					baguettes: {
-// 						rutile: {
-// 							diametre: {
-// 								1.2: {
-// 									position: {
-// 										plat_penetration: {
-// 											typeCourant: {
-// 												continu_Negatif: {
-// 													intensite: { min: 50, max: 100 },
-// 													amperage: { min: 70, max: 120 },
-// 													vitesseFil: { min: 3, max: 6 },
-// 												},
-// 											},
-// 										},
-// 									},
-// 								},
-// 							},
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-// 	},
-// };
-
-// module.exports = optionsDatabaseArc;
-
 var optionsDatabaseArc = {
   arc: {
     acier: {
@@ -476,126 +446,6 @@ var optionsDatabaseArc = {
                           vitesseFil: {
                             min: 3.2,
                             max: 6.5
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    aluminium: {
-      epaisseur: {
-        1: {
-          baguettes: {
-            rutile: {
-              diametre: {
-                1.2: {
-                  position: {
-                    plat_penetration: {
-                      typeCourant: {
-                        continu_Negatif: {
-                          intensite: {
-                            min: 400,
-                            max: 80
-                          },
-                          amperage: {
-                            min: 600,
-                            max: 100
-                          },
-                          vitesseFil: {
-                            min: 2.5,
-                            max: 5
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            basique: {
-              diametre: {
-                1.2: {
-                  position: {
-                    plat_penetration: {
-                      typeCourant: {
-                        continu_Negatif: {
-                          intensite: {
-                            min: 500000,
-                            max: 90
-                          },
-                          amperage: {
-                            min: 70000,
-                            max: 110
-                          },
-                          vitesseFil: {
-                            min: 2.8,
-                            max: 5.3
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    inox: {
-      epaisseur: {
-        1: {
-          baguettes: {
-            rutile: {
-              diametre: {
-                1.2: {
-                  position: {
-                    plat_penetration: {
-                      typeCourant: {
-                        continu_Negatif: {
-                          intensite: {
-                            min: 6000,
-                            max: 110
-                          },
-                          amperage: {
-                            min: 8000,
-                            max: 130
-                          },
-                          vitesseFil: {
-                            min: 3000,
-                            max: 6
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            basique: {
-              diametre: {
-                1.2: {
-                  position: {
-                    plat_penetration: {
-                      typeCourant: {
-                        continu_Negatif: {
-                          intensite: {
-                            min: 0,
-                            max: 120
-                          },
-                          amperage: {
-                            min: 0,
-                            max: 140
-                          },
-                          vitesseFil: {
-                            min: 0,
-                            max: 6.8
                           }
                         }
                       }
@@ -1243,7 +1093,7 @@ function rechercher() {
   var intensite, amperage, vitesseFil;
   var optionsDatabase;
 
-  //* ARC
+  // *ARC *//
   if (typeSoudure === "arc") {
     optionsDatabase = optionsDatabaseArc;
     var options = getOptionsArc(optionsDatabase, typeSoudure, typeMateriau, epaisseur, typeElectrode, diametreElectrode, positionSoudure, typeCourant);
@@ -1257,8 +1107,10 @@ function rechercher() {
         vitesseFil: vitesseFil
       };
     }
-    //* MIG
-  } else if (typeSoudure === "mig") {
+  }
+
+  // *MIG *//
+  else if (typeSoudure === "mig") {
     var _options = getOptionsMig(optionsDatabaseMig, typeSoudure, typeMateriau, epaisseur, diametreFil, positionSoudure, typeCourant);
     if (_options) {
       intensite = _options.intensite;
@@ -1270,8 +1122,10 @@ function rechercher() {
         vitesseFil: vitesseFil
       };
     }
-    //* MAG
-  } else if (typeSoudure === "mag") {
+  }
+
+  // *MAG* //
+  else if (typeSoudure === "mag") {
     optionsDatabase = optionsDatabaseMag;
     var _options2 = getOptionsMag(optionsDatabase, typeSoudure, typeMateriau, epaisseur, diametreFilMAG, positionSoudure, typeCourant, typeFilMAG);
     if (_options2) {
@@ -1284,7 +1138,9 @@ function rechercher() {
         vitesseFil: vitesseFil
       };
     }
-  } //* TIG
+  }
+
+  // *TIG* //
   else if (typeSoudure === "tig") {
     // Si c'est une soudure TIG
     optionsDatabase = optionsDatabaseTig;
@@ -1323,6 +1179,7 @@ calculerButton.addEventListener("click", function () {
 function calculer() {
   // Déclaration de la variable diametreTungstene
   var diametreTungstene;
+
   // Vérifier si tous les champs sont remplis
   var champsRemplis = true;
   var champsRequis = ["typeSoudure", "typeMateriau", "epaisseur"];
@@ -1331,18 +1188,19 @@ function calculer() {
   if (document.getElementById("typeSoudure").value === "arc") {
     champsRequis.push("diametreElectrode");
     champsRequis.push("typeElectrode");
+  }
 
-    // Si le type de soudure est "mig", ajouter le champ "diametreFil" aux champs requis
-  } else if (document.getElementById("typeSoudure").value === "mig") {
+  // Si le type de soudure est "mig", ajouter le champ "diametreFil" aux champs requis
+  else if (document.getElementById("typeSoudure").value === "mig") {
     champsRequis.push("diametreFil");
-
-    // Si le type de soudure est "mag", ajouter le champ "diametreFilMAG" aux champs requis
-  } else if (document.getElementById("typeSoudure").value === "mag") {
+  }
+  // Si le type de soudure est "mag", ajouter le champ "diametreFilMAG" aux champs requis
+  else if (document.getElementById("typeSoudure").value === "mag") {
     champsRequis.push("diametreFilMAG");
     champsRequis.push("typeFilMAG"); // Ajout pour options fil plein fil fourre
-
-    // Si le type de soudure est "tig", ajouter les champs du tig au tableau des champs requis
-  } else if (document.getElementById("typeSoudure").value === "tig") {
+  }
+  // Si le type de soudure est "tig", ajouter les champs du tig au tableau des champs requis
+  else if (document.getElementById("typeSoudure").value === "tig") {
     champsRequis.push("diametreTungstene");
     champsRequis.push("metalApport");
   }
@@ -1374,18 +1232,21 @@ function calculer() {
     if (typeSoudure === "arc") {
       diametreElectrode = document.getElementById("diametreElectrode").value;
       typeElectrode = document.getElementById("typeElectrode").value;
+    }
 
-      //*MIG
-    } else if (typeSoudure === "mig") {
+    //*MIG
+    else if (typeSoudure === "mig") {
       diametreFil = document.getElementById("diametreFil").value;
+    }
 
-      //*MAG
-    } else if (typeSoudure === "mag") {
+    //*MAG
+    else if (typeSoudure === "mag") {
       diametreFilMAG = document.getElementById("diametreFilMAG").value;
       typeFilMAG = document.getElementById("typeFilMAG").value;
+    }
 
-      //* TIG
-    } else if (typeSoudure === "tig") {
+    //* TIG
+    else if (typeSoudure === "tig") {
       diametreTungstene = document.getElementById("diametreTungstene").value;
       metalApport = document.getElementById("metalApport").value;
     }
@@ -1398,15 +1259,21 @@ function calculer() {
     if (typeSoudure === "arc") {
       tableauResultats.push(["Diamètre de la Baguette (mm)", diametreElectrode]);
       tableauResultats.push(["Type de Baguette", typeElectrode]);
-      //* MIG
-    } else if (typeSoudure === "mig") {
+    }
+
+    //* MIG
+    else if (typeSoudure === "mig") {
       tableauResultats.push(["Diamètre du Fil (mm)", diametreFil]);
-      //* MAG
-    } else if (typeSoudure === "mag") {
+    }
+
+    //* MAG
+    else if (typeSoudure === "mag") {
       tableauResultats.push(["Diamètre du Fil MAG (mm)", diametreFilMAG]);
       tableauResultats.push(["Type de Fil MAG", typeFilMAG]);
-      //* TIG
-    } else if (typeSoudure === "tig") {
+    }
+
+    //* TIG
+    else if (typeSoudure === "tig") {
       tableauResultats.push(["Diamètre du Tungstène (mm)", diametreTungstene]);
       tableauResultats.push(["Métal d'Apport", metalApport]);
     }
@@ -1422,46 +1289,13 @@ function calculer() {
     alert("Les options sélectionnées ne sont pas disponibles dans la base de données.");
   }
 }
-},{"./afficherTableauResultats":"js/afficherTableauResultats.js","./rechercher":"js/rechercher.js"}],"js/baseDeDonneesArc.js":[function(require,module,exports) {
-// const optionsDatabaseArc = {
-// 	arc: {
-// 		acier: {
-// 			epaisseur: {
-// 				1: {
-// 					baguettes: {
-// 						rutile: {
-// 							diametre: {
-// 								1.2: {
-// 									position: {
-// 										plat_penetration: {
-// 											typeCourant: {
-// 												continu_Negatif: {
-// 													intensite: { min: 50, max: 100 },
-// 													amperage: { min: 70, max: 120 },
-// 													vitesseFil: { min: 3, max: 6 },
-// 												},
-// 											},
-// 										},
-// 									},
-// 								},
-// 							},
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-// 	},
-// };
-
-// module.exports = optionsDatabaseArc;
-},{}],"js/index.js":[function(require,module,exports) {
+},{"./afficherTableauResultats":"js/afficherTableauResultats.js","./rechercher":"js/rechercher.js"}],"js/index.js":[function(require,module,exports) {
 //* IMPORTATION DES FONCTIONS *//
 
 var afficherChampsSupplementaires = require("./afficherChampsSupplementaires");
 var calculer = require("./calculer");
 var afficherTableauResultats = require("./afficherTableauResultats");
-var optionsDatabaseArc = require("./baseDeDonneesArc");
-},{"./afficherChampsSupplementaires":"js/afficherChampsSupplementaires.js","./calculer":"js/calculer.js","./afficherTableauResultats":"js/afficherTableauResultats.js","./baseDeDonneesArc":"js/baseDeDonneesArc.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./afficherChampsSupplementaires":"js/afficherChampsSupplementaires.js","./calculer":"js/calculer.js","./afficherTableauResultats":"js/afficherTableauResultats.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -1486,7 +1320,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51826" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59807" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

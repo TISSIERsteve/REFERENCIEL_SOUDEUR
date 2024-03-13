@@ -16,6 +16,7 @@ calculerButton.addEventListener("click", function () {
 function calculer() {
 	// Déclaration de la variable diametreTungstene
 	var diametreTungstene;
+
 	// Vérifier si tous les champs sont remplis
 	var champsRemplis = true;
 	var champsRequis = ["typeSoudure", "typeMateriau", "epaisseur"];
@@ -24,18 +25,19 @@ function calculer() {
 	if (document.getElementById("typeSoudure").value === "arc") {
 		champsRequis.push("diametreElectrode");
 		champsRequis.push("typeElectrode");
+	}
 
-		// Si le type de soudure est "mig", ajouter le champ "diametreFil" aux champs requis
-	} else if (document.getElementById("typeSoudure").value === "mig") {
+	// Si le type de soudure est "mig", ajouter le champ "diametreFil" aux champs requis
+	else if (document.getElementById("typeSoudure").value === "mig") {
 		champsRequis.push("diametreFil");
-
-		// Si le type de soudure est "mag", ajouter le champ "diametreFilMAG" aux champs requis
-	} else if (document.getElementById("typeSoudure").value === "mag") {
+	}
+	// Si le type de soudure est "mag", ajouter le champ "diametreFilMAG" aux champs requis
+	else if (document.getElementById("typeSoudure").value === "mag") {
 		champsRequis.push("diametreFilMAG");
 		champsRequis.push("typeFilMAG"); // Ajout pour options fil plein fil fourre
-
-		// Si le type de soudure est "tig", ajouter les champs du tig au tableau des champs requis
-	} else if (document.getElementById("typeSoudure").value === "tig") {
+	}
+	// Si le type de soudure est "tig", ajouter les champs du tig au tableau des champs requis
+	else if (document.getElementById("typeSoudure").value === "tig") {
 		champsRequis.push("diametreTungstene");
 		champsRequis.push("metalApport");
 	}
@@ -74,18 +76,21 @@ function calculer() {
 		if (typeSoudure === "arc") {
 			diametreElectrode = document.getElementById("diametreElectrode").value;
 			typeElectrode = document.getElementById("typeElectrode").value;
+		}
 
-			//*MIG
-		} else if (typeSoudure === "mig") {
+		//*MIG
+		else if (typeSoudure === "mig") {
 			diametreFil = document.getElementById("diametreFil").value;
+		}
 
-			//*MAG
-		} else if (typeSoudure === "mag") {
+		//*MAG
+		else if (typeSoudure === "mag") {
 			diametreFilMAG = document.getElementById("diametreFilMAG").value;
 			typeFilMAG = document.getElementById("typeFilMAG").value;
+		}
 
-			//* TIG
-		} else if (typeSoudure === "tig") {
+		//* TIG
+		else if (typeSoudure === "tig") {
 			diametreTungstene = document.getElementById("diametreTungstene").value;
 			metalApport = document.getElementById("metalApport").value;
 		}
@@ -105,15 +110,21 @@ function calculer() {
 				diametreElectrode,
 			]);
 			tableauResultats.push(["Type de Baguette", typeElectrode]);
-			//* MIG
-		} else if (typeSoudure === "mig") {
+		}
+
+		//* MIG
+		else if (typeSoudure === "mig") {
 			tableauResultats.push(["Diamètre du Fil (mm)", diametreFil]);
-			//* MAG
-		} else if (typeSoudure === "mag") {
+		}
+
+		//* MAG
+		else if (typeSoudure === "mag") {
 			tableauResultats.push(["Diamètre du Fil MAG (mm)", diametreFilMAG]);
 			tableauResultats.push(["Type de Fil MAG", typeFilMAG]);
-			//* TIG
-		} else if (typeSoudure === "tig") {
+		}
+
+		//* TIG
+		else if (typeSoudure === "tig") {
 			tableauResultats.push(["Diamètre du Tungstène (mm)", diametreTungstene]);
 			tableauResultats.push(["Métal d'Apport", metalApport]);
 		}

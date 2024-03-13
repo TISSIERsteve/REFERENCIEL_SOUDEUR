@@ -13,7 +13,6 @@ const getOptionsTig = require("./fichierConditionsBdd.js/getOptionsTig");
 // Fonctions
 function rechercher() {
 	var typeSoudure = document.getElementById("typeSoudure").value;
-
 	var typeMateriau = document.getElementById("typeMateriau").value;
 	var epaisseur = parseFloat(document.getElementById("epaisseur").value);
 	var diametreElectrode = parseFloat(
@@ -32,7 +31,7 @@ function rechercher() {
 	var intensite, amperage, vitesseFil;
 	var optionsDatabase;
 
-	//* ARC
+	// *ARC *//
 	if (typeSoudure === "arc") {
 		optionsDatabase = optionsDatabaseArc;
 		const options = getOptionsArc(
@@ -51,8 +50,10 @@ function rechercher() {
 			vitesseFil = options.vitesseFil;
 			return { intensite, amperage, vitesseFil };
 		}
-		//* MIG
-	} else if (typeSoudure === "mig") {
+	}
+
+	// *MIG *//
+	else if (typeSoudure === "mig") {
 		const options = getOptionsMig(
 			optionsDatabaseMig,
 			typeSoudure,
@@ -68,8 +69,10 @@ function rechercher() {
 			vitesseFil = options.vitesseFil;
 			return { intensite, amperage, vitesseFil };
 		}
-		//* MAG
-	} else if (typeSoudure === "mag") {
+	}
+
+	// *MAG* //
+	else if (typeSoudure === "mag") {
 		optionsDatabase = optionsDatabaseMag;
 
 		const options = getOptionsMag(
@@ -88,7 +91,9 @@ function rechercher() {
 			vitesseFil = options.vitesseFil;
 			return { intensite, amperage, vitesseFil };
 		}
-	} //* TIG
+	}
+
+	// *TIG* //
 	else if (typeSoudure === "tig") {
 		// Si c'est une soudure TIG
 		optionsDatabase = optionsDatabaseTig;

@@ -6,10 +6,10 @@ const afficherMAG = require("./fichiersConditionAffichChamSuppl.js/mag");
 const afficherMIG = require("./fichiersConditionAffichChamSuppl.js/mig");
 const afficherTIG = require("./fichiersConditionAffichChamSuppl.js/tig");
 
-// Récupérer l'élément select
+// Récupérer l'élément typeSoudure onChange
 const typeSoudureSelect = document.getElementById("typeSoudure");
 
-// Ecouteurs d'évenements au change
+// Ecouteurs d'évenements onChange
 typeSoudureSelect.addEventListener("change", afficherChampsSupplementaires);
 
 function afficherChampsSupplementaires() {
@@ -41,9 +41,10 @@ function afficherChampsSupplementaires() {
 	// *ARC*//
 	if (typeSoudure === "arc") {
 		afficherArc();
+	}
 
-		// *MIG*//
-	} else if (typeSoudure === "mig") {
+	// *MIG*//
+	else if (typeSoudure === "mig") {
 		afficherMIG();
 	}
 
