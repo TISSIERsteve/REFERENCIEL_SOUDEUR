@@ -1,12 +1,16 @@
 //* FONCTION AFFICHER CHAMPS SUPPLEMENTAIRES *//
 
+// Import des fichiers
+const afficherArc = require("./fichiersConditionAffichChamSuppl.js/arc");
+const afficherMAG = require("./fichiersConditionAffichChamSuppl.js/mag");
+const afficherMIG = require("./fichiersConditionAffichChamSuppl.js/mig");
+const afficherTIG = require("./fichiersConditionAffichChamSuppl.js/tig");
+
 // Récupérer l'élément select
 const typeSoudureSelect = document.getElementById("typeSoudure");
 
 // Ecouteurs d'évenements au change
 typeSoudureSelect.addEventListener("change", afficherChampsSupplementaires);
-
-// Définir la fonction afficherChampsSupplementaires
 
 function afficherChampsSupplementaires() {
 	var typeSoudure = document.getElementById("typeSoudure").value;
@@ -36,109 +40,21 @@ function afficherChampsSupplementaires() {
 
 	// *ARC*//
 	if (typeSoudure === "arc") {
-		champsArc.style.display = "block";
-
-		// Désactiver les champs non nécessaires
-		typeElectrode.innerHTML = '<option value=""></option>';
-		typeMateriau.innerHTML += '<option value="acier">Acier</option>';
-		typeElectrode.innerHTML += '<option value="rutile">Rutile</option>';
-		typeElectrode.innerHTML += '<option value="basique">Basique</option>';
-
-		// Fonction choix style enrobage électrode
-		typeElectrode.addEventListener("change", function () {
-			typeCourant.disabled = false;
-			typeCourant.innerHTML = "";
-
-			// Ajouter les options de courant appropriées en fonction de la baguette
-			if (typeElectrode.value === "rutile") {
-				typeCourant.innerHTML +=
-					'<option value="continu_Negatif">Courant Continu Négatif</option>';
-			} else if (typeElectrode.value === "basique") {
-				typeCourant.innerHTML +=
-					'<option value="continu_Positif">Courant Continu Positif</option>';
-				typeCourant.innerHTML +=
-					'<option value="continu_Negatif">Courant Continu Négatif</option>';
-			}
-		});
+		afficherArc();
 
 		// *MIG*//
 	} else if (typeSoudure === "mig") {
-		champsMIG.style.display = "block";
-
-		// Désactiver les champs non nécessaires
-		typeElectrode.disabled = true;
-		diametreElectrode.disabled = true;
-
-		typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
-
-		typeMateriau.addEventListener("change", function () {
-			typeCourant.disabled = false;
-			typeCourant.innerHTML = "";
-			if (typeMateriau.value === "aluminium") {
-				typeCourant.innerHTML +=
-					'<option value="continu_Negatif">Courant Continu Négatif</option>';
-			}
-		});
+		afficherMIG();
 	}
 
 	// *MAG*//
 	else if (typeSoudure === "mag") {
-		champsMAG.style.display = "block";
-
-		// Afficher le champ "Type de Fil MAG"
-		typeFilMAG.style.display = "block";
-
-		// Réinitialiser les options du type de matériau
-		typeMateriau.innerHTML = '<option value=""></option>';
-		typeMateriau.innerHTML += '<option value="acier">Acier</option>';
-		typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
-
-		typeMateriau.addEventListener("change", function () {
-			typeCourant.disabled = false;
-			typeCourant.innerHTML = "";
-			if (typeMateriau.value === "acier" || typeMateriau.value === "inox") {
-				typeCourant.innerHTML +=
-					'<option value="continu_Positif">Courant Continu Positif</option>';
-			}
-		});
+		afficherMAG();
 	}
 
 	// *TIG*//
 	else if (typeSoudure === "tig") {
-		champsTIG.style.display = "block";
-		metalApport.style.display = "block";
-
-		// Ajouter les options appropriées pour la soudure TIG
-		typeMateriau.innerHTML += '<option value="acier">Acier</option>';
-		typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
-		typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
-
-		typeMateriau.addEventListener("change", function () {
-			typeCourant.disabled = false;
-			typeCourant.innerHTML = "";
-
-			//* ACIER
-			if (typeMateriau.value === "acier") {
-				metalApport.innerHTML = "";
-				metalApport.innerHTML += '<option value="acier">Acier</option>';
-				typeCourant.innerHTML +=
-					'<option value="continu_Negatif">Courant Continu Négatif</option>';
-
-				//* INOX
-			} else if (typeMateriau.value === "inox") {
-				metalApport.innerHTML = "";
-				metalApport.innerHTML += '<option value="inox">Inox</option>';
-				typeCourant.innerHTML +=
-					'<option value="continu_Negatif">Courant Continu Négatif</option>';
-
-				//* ALUMINIUM
-			} else if (typeMateriau.value === "aluminium") {
-				metalApport.innerHTML = "";
-				metalApport.innerHTML += '<option value="aluminium">Aluminium</option>';
-				typeCourant.innerHTML +=
-					'<option value="continu_Alternatif">Courant Alternatif</option>';
-			}
-		});
+		afficherTIG();
 	}
 }
 module.exports = afficherChampsSupplementaires;

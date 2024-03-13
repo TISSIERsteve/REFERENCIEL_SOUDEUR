@@ -117,17 +117,129 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"js/afficherChampsSupplementaires.js":[function(require,module,exports) {
+})({"js/fichiersConditionAffichChamSuppl.js/arc.js":[function(require,module,exports) {
+//* ARC
+
+function afficherArc() {
+  champsArc.style.display = "block";
+
+  // Désactiver les champs non nécessaires
+  typeElectrode.innerHTML = '<option value=""></option>';
+  typeMateriau.innerHTML += '<option value="acier">Acier</option>';
+  typeElectrode.innerHTML += '<option value="rutile">Rutile</option>';
+  typeElectrode.innerHTML += '<option value="basique">Basique</option>';
+
+  // Fonction choix style enrobage électrode
+  typeElectrode.addEventListener("change", function () {
+    typeCourant.disabled = false;
+    typeCourant.innerHTML = "";
+
+    // Arc Rutile
+    if (typeElectrode.value === "rutile") {
+      typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
+
+      // Arc Basique
+    } else if (typeElectrode.value === "basique") {
+      typeCourant.innerHTML += '<option value="continu_Positif">Courant Continu Positif</option>';
+      typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
+    }
+  });
+}
+module.exports = afficherArc;
+},{}],"js/fichiersConditionAffichChamSuppl.js/mag.js":[function(require,module,exports) {
+//* MAG
+function afficherMAG() {
+  champsMAG.style.display = "block";
+
+  // Afficher le champ "Type de Fil MAG"
+  typeFilMAG.style.display = "block";
+
+  // Réinitialiser les options du type de matériau
+  typeMateriau.innerHTML = '<option value=""></option>';
+  typeMateriau.innerHTML += '<option value="acier">Acier</option>';
+  typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
+  typeMateriau.addEventListener("change", function () {
+    typeCourant.disabled = false;
+    typeCourant.innerHTML = "";
+
+    // Mag Acier et Inox
+    if (typeMateriau.value === "acier" || typeMateriau.value === "inox") {
+      typeCourant.innerHTML += '<option value="continu_Positif">Courant Continu Positif</option>';
+    }
+  });
+}
+module.exports = afficherMAG;
+},{}],"js/fichiersConditionAffichChamSuppl.js/mig.js":[function(require,module,exports) {
+//* MIG*
+
+function afficherMIG() {
+  champsMIG.style.display = "block";
+
+  // Désactiver les champs non nécessaires
+  typeElectrode.disabled = true;
+  diametreElectrode.disabled = true;
+  typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
+  typeMateriau.addEventListener("change", function () {
+    typeCourant.disabled = false;
+    typeCourant.innerHTML = "";
+
+    // Mig Aluminium
+    if (typeMateriau.value === "aluminium") {
+      typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
+    }
+  });
+}
+module.exports = afficherMIG;
+},{}],"js/fichiersConditionAffichChamSuppl.js/tig.js":[function(require,module,exports) {
+//* TIG
+
+function afficherTIG() {
+  champsTIG.style.display = "block";
+  metalApport.style.display = "block";
+
+  // Ajouter les options appropriées pour la soudure TIG
+  typeMateriau.innerHTML += '<option value="acier">Acier</option>';
+  typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
+  typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
+  typeMateriau.addEventListener("change", function () {
+    typeCourant.disabled = false;
+    typeCourant.innerHTML = "";
+
+    // Tig Acier
+    if (typeMateriau.value === "acier") {
+      metalApport.innerHTML = "";
+      metalApport.innerHTML += '<option value="acier">Acier</option>';
+      typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
+
+      // Tig Inox
+    } else if (typeMateriau.value === "inox") {
+      metalApport.innerHTML = "";
+      metalApport.innerHTML += '<option value="inox">Inox</option>';
+      typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
+
+      // Tig Aluminium
+    } else if (typeMateriau.value === "aluminium") {
+      metalApport.innerHTML = "";
+      metalApport.innerHTML += '<option value="aluminium">Aluminium</option>';
+      typeCourant.innerHTML += '<option value="continu_Alternatif">Courant Alternatif</option>';
+    }
+  });
+}
+module.exports = afficherTIG;
+},{}],"js/afficherChampsSupplementaires.js":[function(require,module,exports) {
 //* FONCTION AFFICHER CHAMPS SUPPLEMENTAIRES *//
+
+// Import des fichiers
+var afficherArc = require("./fichiersConditionAffichChamSuppl.js/arc");
+var afficherMAG = require("./fichiersConditionAffichChamSuppl.js/mag");
+var afficherMIG = require("./fichiersConditionAffichChamSuppl.js/mig");
+var afficherTIG = require("./fichiersConditionAffichChamSuppl.js/tig");
 
 // Récupérer l'élément select
 var typeSoudureSelect = document.getElementById("typeSoudure");
 
 // Ecouteurs d'évenements au change
 typeSoudureSelect.addEventListener("change", afficherChampsSupplementaires);
-
-// Définir la fonction afficherChampsSupplementaires
-
 function afficherChampsSupplementaires() {
   var typeSoudure = document.getElementById("typeSoudure").value;
   var typeMateriau = document.getElementById("typeMateriau");
@@ -156,101 +268,25 @@ function afficherChampsSupplementaires() {
 
   // *ARC*//
   if (typeSoudure === "arc") {
-    champsArc.style.display = "block";
-
-    // Désactiver les champs non nécessaires
-    typeElectrode.innerHTML = '<option value=""></option>';
-    typeMateriau.innerHTML += '<option value="acier">Acier</option>';
-    typeElectrode.innerHTML += '<option value="rutile">Rutile</option>';
-    typeElectrode.innerHTML += '<option value="basique">Basique</option>';
-
-    // Fonction choix style enrobage électrode
-    typeElectrode.addEventListener("change", function () {
-      typeCourant.disabled = false;
-      typeCourant.innerHTML = "";
-
-      // Ajouter les options de courant appropriées en fonction de la baguette
-      if (typeElectrode.value === "rutile") {
-        typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
-      } else if (typeElectrode.value === "basique") {
-        typeCourant.innerHTML += '<option value="continu_Positif">Courant Continu Positif</option>';
-        typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
-      }
-    });
+    afficherArc();
 
     // *MIG*//
   } else if (typeSoudure === "mig") {
-    champsMIG.style.display = "block";
-
-    // Désactiver les champs non nécessaires
-    typeElectrode.disabled = true;
-    diametreElectrode.disabled = true;
-    typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
-    typeMateriau.addEventListener("change", function () {
-      typeCourant.disabled = false;
-      typeCourant.innerHTML = "";
-      if (typeMateriau.value === "aluminium") {
-        typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
-      }
-    });
+    afficherMIG();
   }
 
   // *MAG*//
   else if (typeSoudure === "mag") {
-    champsMAG.style.display = "block";
-
-    // Afficher le champ "Type de Fil MAG"
-    typeFilMAG.style.display = "block";
-
-    // Réinitialiser les options du type de matériau
-    typeMateriau.innerHTML = '<option value=""></option>';
-    typeMateriau.innerHTML += '<option value="acier">Acier</option>';
-    typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
-    typeMateriau.addEventListener("change", function () {
-      typeCourant.disabled = false;
-      typeCourant.innerHTML = "";
-      if (typeMateriau.value === "acier" || typeMateriau.value === "inox") {
-        typeCourant.innerHTML += '<option value="continu_Positif">Courant Continu Positif</option>';
-      }
-    });
+    afficherMAG();
   }
 
   // *TIG*//
   else if (typeSoudure === "tig") {
-    champsTIG.style.display = "block";
-    metalApport.style.display = "block";
-
-    // Ajouter les options appropriées pour la soudure TIG
-    typeMateriau.innerHTML += '<option value="acier">Acier</option>';
-    typeMateriau.innerHTML += '<option value="aluminium">Aluminium</option>';
-    typeMateriau.innerHTML += '<option value="inox">Acier Inoxydable</option>';
-    typeMateriau.addEventListener("change", function () {
-      typeCourant.disabled = false;
-      typeCourant.innerHTML = "";
-
-      //* ACIER
-      if (typeMateriau.value === "acier") {
-        metalApport.innerHTML = "";
-        metalApport.innerHTML += '<option value="acier">Acier</option>';
-        typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
-
-        //* INOX
-      } else if (typeMateriau.value === "inox") {
-        metalApport.innerHTML = "";
-        metalApport.innerHTML += '<option value="inox">Inox</option>';
-        typeCourant.innerHTML += '<option value="continu_Negatif">Courant Continu Négatif</option>';
-
-        //* ALUMINIUM
-      } else if (typeMateriau.value === "aluminium") {
-        metalApport.innerHTML = "";
-        metalApport.innerHTML += '<option value="aluminium">Aluminium</option>';
-        typeCourant.innerHTML += '<option value="continu_Alternatif">Courant Alternatif</option>';
-      }
-    });
+    afficherTIG();
   }
 }
 module.exports = afficherChampsSupplementaires;
-},{}],"js/buttonRefresh.js":[function(require,module,exports) {
+},{"./fichiersConditionAffichChamSuppl.js/arc":"js/fichiersConditionAffichChamSuppl.js/arc.js","./fichiersConditionAffichChamSuppl.js/mag":"js/fichiersConditionAffichChamSuppl.js/mag.js","./fichiersConditionAffichChamSuppl.js/mig":"js/fichiersConditionAffichChamSuppl.js/mig.js","./fichiersConditionAffichChamSuppl.js/tig":"js/fichiersConditionAffichChamSuppl.js/tig.js"}],"js/buttonRefresh.js":[function(require,module,exports) {
 //* FONCTION BOUTTON REFRESH *//
 
 function ajouterBoutonRefresh() {
@@ -1051,7 +1087,7 @@ var optionsDatabaseTig = {
   }
 };
 module.exports = optionsDatabaseTig;
-},{}],"js/fichierConditions.js/getOptionsArc.js":[function(require,module,exports) {
+},{}],"js/fichierConditionsBdd.js/getOptionsArc.js":[function(require,module,exports) {
 var optionsDatabaseArc = require("../../../../backend/data/dataArc");
 function getOptionsArc(optionsDatabaseArc, typeSoudure, typeMateriau, epaisseur, typeElectrode, diametreElectrode, positionSoudure, typeCourant) {
   if (optionsDatabaseArc[typeSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure] && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant && optionsDatabaseArc[typeSoudure][typeMateriau].epaisseur[epaisseur].baguettes[typeElectrode].diametre[diametreElectrode].position[positionSoudure].typeCourant[typeCourant]) {
@@ -1067,7 +1103,7 @@ function getOptionsArc(optionsDatabaseArc, typeSoudure, typeMateriau, epaisseur,
   return null;
 }
 module.exports = getOptionsArc;
-},{"../../../../backend/data/dataArc":"../../backend/data/dataArc.js"}],"js/fichierConditions.js/getOptionsMig.js":[function(require,module,exports) {
+},{"../../../../backend/data/dataArc":"../../backend/data/dataArc.js"}],"js/fichierConditionsBdd.js/getOptionsMig.js":[function(require,module,exports) {
 var optionsDatabaseMig = require("../../../../backend/data/dataMig");
 function getOptionsMig(optionsDatabaseMig, typeSoudure, typeMateriau, epaisseur, diametreFil, positionSoudure, typeCourant) {
   if (optionsDatabaseMig[typeSoudure] && optionsDatabaseMig[typeSoudure][typeMateriau] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure] && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant && optionsDatabaseMig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFil[diametreFil].position[positionSoudure].typeCourant[typeCourant]) {
@@ -1083,7 +1119,7 @@ function getOptionsMig(optionsDatabaseMig, typeSoudure, typeMateriau, epaisseur,
   return null;
 }
 module.exports = getOptionsMig;
-},{"../../../../backend/data/dataMig":"../../backend/data/dataMig.js"}],"js/fichierConditions.js/getOptionsMag.js":[function(require,module,exports) {
+},{"../../../../backend/data/dataMig":"../../backend/data/dataMig.js"}],"js/fichierConditionsBdd.js/getOptionsMag.js":[function(require,module,exports) {
 var optionsDatabaseMag = require("../../../../backend/data/dataMag");
 function getOptionsMag(optionsDatabaseMag, typeSoudure, typeMateriau, epaisseur, diametreFilMag, positionSoudure, typeCourant) {
   if (optionsDatabaseMag[typeSoudure] && optionsDatabaseMag[typeSoudure][typeMateriau] && optionsDatabaseMag[typeSoudure][typeMateriau].epaisseur && optionsDatabaseMag[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseMag[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFilMag && optionsDatabaseMag[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFilMag[diametreFilMag] && optionsDatabaseMag[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFilMag[diametreFilMag].position && optionsDatabaseMag[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFilMag[diametreFilMag].position[positionSoudure] && optionsDatabaseMag[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFilMag[diametreFilMag].position[positionSoudure].typeCourant && optionsDatabaseMag[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreFilMag[diametreFilMag].position[positionSoudure].typeCourant[typeCourant]) {
@@ -1158,7 +1194,7 @@ module.exports = getOptionsMag;
 // }
 
 // module.exports = getOptionsMag;
-},{"../../../../backend/data/dataMag":"../../backend/data/dataMag.js"}],"js/fichierConditions.js/getOptionsTig.js":[function(require,module,exports) {
+},{"../../../../backend/data/dataMag":"../../backend/data/dataMag.js"}],"js/fichierConditionsBdd.js/getOptionsTig.js":[function(require,module,exports) {
 var optionsDatabaseTig = require("../../../../backend/data/dataTig");
 function getOptionsTig(optionsDatabaseTig, typeSoudure, typeMateriau, epaisseur, diametreTungstene, positionSoudure, typeCourant, metalApport) {
   if (optionsDatabaseTig[typeSoudure] && optionsDatabaseTig[typeSoudure][typeMateriau] && optionsDatabaseTig[typeSoudure][typeMateriau].epaisseur && optionsDatabaseTig[typeSoudure][typeMateriau].epaisseur[epaisseur] && optionsDatabaseTig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreTungstene && optionsDatabaseTig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreTungstene[diametreTungstene] && optionsDatabaseTig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreTungstene[diametreTungstene].position && optionsDatabaseTig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreTungstene[diametreTungstene].position[positionSoudure] && optionsDatabaseTig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreTungstene[diametreTungstene].position[positionSoudure].typeCourant && optionsDatabaseTig[typeSoudure][typeMateriau].epaisseur[epaisseur].diametreTungstene[diametreTungstene].position[positionSoudure].typeCourant[typeCourant]) {
@@ -1186,10 +1222,10 @@ var optionsDatabaseArc = require("../../../backend/data/dataArc");
 var optionsDatabaseMig = require("../../../backend/data/dataMig");
 var optionsDatabaseMag = require("../../../backend/data/dataMag");
 var optionsDatabaseTig = require("../../../backend/data/dataTig");
-var getOptionsArc = require("./fichierConditions.js/getOptionsArc");
-var getOptionsMig = require("./fichierConditions.js/getOptionsMig");
-var getOptionsMag = require("./fichierConditions.js/getOptionsMag");
-var getOptionsTig = require("./fichierConditions.js/getOptionsTig");
+var getOptionsArc = require("./fichierConditionsBdd.js/getOptionsArc");
+var getOptionsMig = require("./fichierConditionsBdd.js/getOptionsMig");
+var getOptionsMag = require("./fichierConditionsBdd.js/getOptionsMag");
+var getOptionsTig = require("./fichierConditionsBdd.js/getOptionsTig");
 
 // Fonctions
 function rechercher() {
@@ -1268,7 +1304,7 @@ function rechercher() {
   return null;
 }
 module.exports = rechercher;
-},{"../../../backend/data/dataArc":"../../backend/data/dataArc.js","../../../backend/data/dataMig":"../../backend/data/dataMig.js","../../../backend/data/dataMag":"../../backend/data/dataMag.js","../../../backend/data/dataTig":"../../backend/data/dataTig.js","./fichierConditions.js/getOptionsArc":"js/fichierConditions.js/getOptionsArc.js","./fichierConditions.js/getOptionsMig":"js/fichierConditions.js/getOptionsMig.js","./fichierConditions.js/getOptionsMag":"js/fichierConditions.js/getOptionsMag.js","./fichierConditions.js/getOptionsTig":"js/fichierConditions.js/getOptionsTig.js"}],"js/calculer.js":[function(require,module,exports) {
+},{"../../../backend/data/dataArc":"../../backend/data/dataArc.js","../../../backend/data/dataMig":"../../backend/data/dataMig.js","../../../backend/data/dataMag":"../../backend/data/dataMag.js","../../../backend/data/dataTig":"../../backend/data/dataTig.js","./fichierConditionsBdd.js/getOptionsArc":"js/fichierConditionsBdd.js/getOptionsArc.js","./fichierConditionsBdd.js/getOptionsMig":"js/fichierConditionsBdd.js/getOptionsMig.js","./fichierConditionsBdd.js/getOptionsMag":"js/fichierConditionsBdd.js/getOptionsMag.js","./fichierConditionsBdd.js/getOptionsTig":"js/fichierConditionsBdd.js/getOptionsTig.js"}],"js/calculer.js":[function(require,module,exports) {
 //* FONCTION CALCULER *//
 
 // Import de mes fichiers

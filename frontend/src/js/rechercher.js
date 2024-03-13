@@ -5,10 +5,10 @@ const optionsDatabaseArc = require("../../../backend/data/dataArc");
 const optionsDatabaseMig = require("../../../backend/data/dataMig");
 const optionsDatabaseMag = require("../../../backend/data/dataMag");
 const optionsDatabaseTig = require("../../../backend/data/dataTig");
-const getOptionsArc = require("./fichierConditions.js/getOptionsArc");
-const getOptionsMig = require("./fichierConditions.js/getOptionsMig");
-const getOptionsMag = require("./fichierConditions.js/getOptionsMag");
-const getOptionsTig = require("./fichierConditions.js/getOptionsTig");
+const getOptionsArc = require("./fichierConditionsBdd.js/getOptionsArc");
+const getOptionsMig = require("./fichierConditionsBdd.js/getOptionsMig");
+const getOptionsMag = require("./fichierConditionsBdd.js/getOptionsMag");
+const getOptionsTig = require("./fichierConditionsBdd.js/getOptionsTig");
 
 // Fonctions
 function rechercher() {
