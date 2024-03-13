@@ -43,15 +43,93 @@ button {
 
 button:hover {
       background-color: #45a049;
+      font-weight: bold;
+}
+
+/* Styles pour la fenêtre de résultats */
+.modal-open {
+      visibility: hidden;
 }
 
 #resultats {
-      margin-top: 20px;
+      visibility: visible;
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 600px;
+      height: auto;
+      background-color: #525151;
+      color: #fff;
+      border-radius: 28px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      z-index: 1000;
+      overflow: auto;
+      border: #dce4dc 10px solid;
+}
+
+
+@keyframes slideIn {
+      from {
+            transform: translate(-50%, -60%);
+      }
+      
+      to {
+            transform: translate(-50%, -50%);
+      }
+}
+#resultats h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #fff;
+}
+
+#resultats table {
+      width: 100%;
+      border-collapse: collapse;
+
+}
+
+#resultats table td,
+#resultats table th {
+      border: 1px solid #fff;
       padding: 10px;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      animation: fadeIn 1s ease;
+      text-align: center;
+}
+
+#resultats table td::first-letter {
+      text-transform: uppercase;
+}
+
+#resultats tr {
+      transition: transform 0.3s ease;
+      transform: translateY(-8%);
+}
+
+#resultats tr:hover {
+      transform: scale(1.03);
+      cursor: pointer;
+}
+
+#resultats .additional-info {
+      margin-top: 20px;
+      font-style: italic;
+      color: #ccc;
+}
+
+#resultats .additional-info p {
+      margin: 0;
+}
+
+.boutonRefresh {
+      visibility: visible;
+            position: fixed;
+                  top: 10%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
 }
 
 @keyframes fadeIn {

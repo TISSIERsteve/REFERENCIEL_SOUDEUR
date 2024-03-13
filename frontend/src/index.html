@@ -9,157 +9,187 @@
 </head>
 
 <body>
-      <h1>Calculateur de Soudure</h1>
+      <div class="backdrop">
 
-      <label for="typeSoudure">Type de Soudure:</label>
-      <!-- <select id="typeSoudure" onchange="afficherChampsSupplementaires()"> -->
-      <select id="typeSoudure">
-            <option></option>
-            <option value="arc">Soudure à l'Arc</option>
-            <option value="mig">Soudure MIG</option>
-            <option value="mag">Soudure MAG</option>
-            <option value="tig">Soudure TIG</option>
-      </select>
-      <br />
-      <br />
+            <header>
 
-      <label for="typeMateriau">Type de Matériau:</label>
-      <select id="typeMateriau">
-            <option></option>
-            <option value="acier">Acier</option>
-            <option value="aluminium">Aluminium</option>
-            <option value="inox">Acier Inoxydable</option>
-      </select>
-      <br />
-      <br />
+                  <h1>Calculateur de Soudure</h1>
+            </header>
 
-      <label for="epaisseur">Épaisseur du Matériau (mm):</label>
+            <main>
 
-      <input type="number" id="epaisseur" value="" min="1" max="12" />
-      <br />
-      <br />
-
-      <div id="champsSupplementaires">
-            <div id="champsArc">
-                  <label for="diametreElectrode">Diamètre de la Baguette (mm):</label>
-                  <select id="diametreElectrode">
-                        <option value="1.2">1.2 mm</option>
-                        <option value="2.5">2.5 mm</option>
-                        <option value="3.2">3.2 mm</option>
-                        <option value="4">4 mm</option>
+                  <label for="typeSoudure">Type de Soudure:</label>
+                  <select id="typeSoudure">
+                        <option></option>
+                        <option value="arc">Soudure à l'Arc</option>
+                        <option value="mig">Soudure MIG</option>
+                        <option value="mag">Soudure MAG</option>
+                        <option value="tig">Soudure TIG</option>
                   </select>
                   <br />
                   <br />
 
-                  <label for="typeElectrode">Type de Baguette:</label>
-                  <select id="typeElectrode">
-                        <!-- <option></option> -->
-                        <option value="rutile">Rutile</option>
-                        <option value="basique">Basique</option>
-                  </select>
-                  <br />
-                  <br />
-            </div>
-
-            <div id="champsMIG" style="display: none;">
-                  <label for="diametreFil">Diamètre du Fil (mm):</label>
-                  <select id="diametreFil">
-                        <option value="0.6">0.6 mm</option>
-                        <option value="1">1 mm</option>
-                        <option value="1.2">1.2 mm</option>
-                        <option value="1.6">1.6 mm</option>
-                  </select>
-                  <br />
-                  <br />
-            </div>
-
-            <div id="champsMAG" style="display: none;">
-                  <label for="diametreFilMAG">Diamètre du Fil MAG (mm):</label>
-                  <select id="diametreFilMAG">
-                        <option value="0.8">0.8 mm</option>
-                        <option value="1">1 mm</option>
-                        <option value="1.2">1.2 mm</option>
-                        <option value="1.6">1.6 mm</option>
-                  </select>
-                  <br />
-                  <br />
-            </div>
-
-            <div id="champsTIG" style="display: none;">
-                  <label for="diametreTungstene">Diamètre du Tungstène (mm):</label>
-                  <select id="diametreTungstene">
-                        <option value="1">1 mm</option>
-                        <option value="1.6">1.6 mm</option>
-                        <option value="3.2">3.2 mm</option>
-                  </select>
-                  <br />
-                  <br />
-
-                  <label for="metalApport">Métal d'Apport:</label>
-                  <select id="metalApport">
+                  <label for="typeMateriau">Type de Matériau:</label>
+                  <select id="typeMateriau">
+                        <option></option>
                         <option value="acier">Acier</option>
-                        <option value="aluminium">Aluminium</option>
-                        <option value="inox">Acier Inoxydable</option>
                   </select>
                   <br />
                   <br />
-            </div>
+
+                  <label for="epaisseur">Épaisseur du Matériau (mm):</label>
+
+                  <input type="number" id="epaisseur" value="" min="1" max="12" />
+                  <br />
+                  <br />
+
+                  <div id="champsSupplementaires">
+                        <div id="champsArc">
+                              <label for="diametreElectrode">Diamètre de la Baguette (mm):</label>
+                              <select id="diametreElectrode">
+                                    <option value="1.2">1.2</option>
+                                    <option value="2.5">2.5</option>
+                                    <option value="3.2">3.2</option>
+                                    <option value="4">4</option>
+                              </select>
+                              <br />
+                              <br />
+
+                              <label for="typeElectrode">Type de Baguette:</label>
+                              <select id="typeElectrode">
+                                    <option value="rutile">Rutile</option>
+                                    <option value="basique">Basique</option>
+                              </select>
+                              <br />
+                              <br />
+                        </div>
+
+                        <div id="champsMIG" style="display: none;">
+                              <label for="diametreFil">Diamètre du Fil MIG(mm):</label>
+                              <select id="diametreFil">
+                                    <option value="0.6">0.6</option>
+                                    <option value="0.8">0.8</option>
+                                    <option value="1">1</option>
+                                    <option value="1.2">1.2</option>
+                                    <option value="1.6">1.6</option>
+                              </select>
+                              <br />
+                              <br />
+                        </div>
+
+                        <div id="champsMAG" style="display: none;">
+                              <label for="diametreFilMAG">Diamètre du Fil MAG (mm):</label>
+                              <select id="diametreFilMAG">
+                                    <option value="0.6">0.6 </option>
+                                    <option value="0.8">0.8 </option>
+                                    <option value="1">1 </option>
+                                    <option value="1.2">1.2</option>
+                                    <option value="1.6">1.6 </option>
+                              </select>
+                              <br />
+                              <br />
+                              <label for="typeFilMAG">Type de Fil:</label>
+                              <select id="typeFilMAG">
+                                    <option value="plein">Fil Plein</option>
+                                    <option value="fourre">Fil Fourré</option>
+                              </select>
+                              <br />
+                              <br />
+                        </div>
+
+                        <div id="champsTIG" style="display: none;">
+                              <label for="diametreTungstene">Diamètre du Tungstène (mm):</label>
+                              <select id="diametreTungstene">
+                                    <option value="1">1 </option>
+                                    <option value="1.6">1.6 </option>
+                                    <option value="3.2">3.2</option>
+                              </select>
+                              <br />
+                              <br />
+
+                              <label for="metalApport">Métal d'Apport:</label>
+                              <select id="metalApport">
+                                    <option value="acier">Acier</option>
+                                    <option value="aluminium">Aluminium</option>
+                                    <option value="inox">Acier Inoxydable</option>
+                              </select>
+                              <br />
+                              <br />
+                        </div>
+                  </div>
+                  <label for="positionSoudure">Position de la Soudure:</label>
+                  <br><br>
+                  <div>
+                        <span>SL = Mono passe / </span>
+                        <span>ML = Multi passe / </span>
+                        <span>BW = Bout à Bout</span>
+                  </div>
+                  <br>
+                  <select id="positionSoudure">
+                        <option></option>
+                        <option value="plat_penetration"> PA => Soudure à Plat Bout à Bout passe de penetration => BW SL
+                        </option>
+                        <option value="plat_remplissage"> PA => Soudure à Plat Bout à Bout passe de remplissage => BW
+                              (SL /
+                              ML)
+                        </option>
+                        <option value="horizontal_angle_plat ">PB => Soudure Horizontale angle à plat intérieur SL
+                        </option>
+                        <option value="corniche_passe_penetration">PC => Soudure En Corniche Bout à Bout passe de
+                              pénétration
+                              => BW
+                              SL
+                        </option>
+                        <option value="corniche_passe remplissage">PC => Soudure En Corniche Bout à Bout passe de
+                              remplissage
+                              => BW
+                              (SL / ML)
+                        </option>
+                        <option value="plafond_passe_penetration">PE => Soudure Plafond Bout à Bout passe de
+                              pénétration=> BW
+                              SL
+                        </option>
+                        <option value="plafond_passe_remplissage">PE => Soudure Plafond Bout à Bout passe de
+                              remplissage=> BW
+                              (SL /
+                              ML)
+                        </option>
+                        <option value="vertical">PG => Soudure Verticale Descendante SL</option>
+                        <option value="montante">PF => Soudure Verticale Montante SL</option>
+                        <option value="montante">PF => Soudure Verticale Montante ML</option>
+                  </select>
+
+                  <label for="typeCourant">Type de Courant:</label>
+                  <select id="typeCourant">
+                        <option></option>
+                        <option value="continu_Positif">
+                              Courant Continu Positif
+                        </option>
+                        <option value="continu_Negatif">
+                              Courant Continu Négatif
+                        </option>
+                        <option value="courant_Alternatif">
+                              Courant Alternatif
+                        </option>
+                  </select>
+                  <br />
+                  <br />
+
+            </main>
+            <footer>
+
+                  <button>Calculer</button>
+                  <br />
+                  <br />
+
+                  <!-- Élément pour afficher la fenêtre de résultats -->
+                  <div id="resultats">
+
+                  </div>
+            </footer>
       </div>
-      <label for="positionSoudure">Position de la Soudure:</label>
-      <br><br>
-      <div>
-            <span>SL = Mono passe / </span>
-            <span>ML = Multi passe / </span>
-            <span>BW = Bout à Bout</span>
-      </div>
-      <br>
-      <select id="positionSoudure">
-            <option></option>
-            <option value="plat_penetration"> PA => Soudure à Plat Bout à Bout passe de penetration => BW SL</option>
-            <option value="plat_remplissage"> PA => Soudure à Plat Bout à Bout passe de remplissage => BW (SL / ML)
-            </option>
-            <option value="horizontal_angle_plat ">PB => Soudure Horizontale angle à plat intérieur SL
-            </option>
-            <option value="corniche_passe_penetration">PC => Soudure En Corniche Bout à Bout passe de pénétration => BW
-                  SL
-            </option>
-            <option value="corniche_passe remplissage">PC => Soudure En Corniche Bout à Bout passe de remplissage => BW
-                  (SL / ML)
-            </option>
-            <option value="plafond_passe_penetration">PE => Soudure Plafond Bout à Bout passe de pénétration=> BW SL
-            </option>
-            <option value="plafond_passe_remplissage">PE => Soudure Plafond Bout à Bout passe de remplissage=> BW (SL /
-                  ML)
-            </option>
-            <option value="vertical">PG => Soudure Verticale Descendante SL</option>
-            <option value="montante">PF => Soudure Verticale Montante SL</option>
-            <option value="montante">PF => Soudure Verticale Montante ML</option>
-      </select>
-
-      <label for="typeCourant">Type de Courant:</label>
-      <select id="typeCourant">
-            <option></option>
-            <option value="continu_Positif">
-                  Courant Continu Positif
-            </option>
-            <option value="continu_Negatif">
-                  Courant Continu Négatif
-            </option>
-            <option value="courant_Alternatif">
-                  Courant Alternatif
-            </option>
-      </select>
-      <br />
-      <br />
-
-      <!-- <button onclick="calculer()">Calculer</button> -->
-      <button>Calculer</button>
-      <br />
-      <br />
-
-      <div id="resultats"></div>
       <script src="./js/index.js"></script>
-      <script src="./js/baseDeDonneesArc.js"></script>
+
 </body>
 
 </html>
